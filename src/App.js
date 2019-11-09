@@ -1,26 +1,33 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import './App.scss';
+import React, { Component } from 'react';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import Navigation from './components/Navigation';
+import Home from './components/Home'
+import GetStarted from './components/GetStarted';
+import About from './components/About';
+import TheParks from './components/TheParks';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faClock, faChild, faHamburger, faUserCheck, faMapSigns} from '@fortawesome/free-solid-svg-icons'
+
+library.add(faClock, faChild, faHamburger, faUserCheck, faMapSigns)
+
+class App extends Component {
+  render() {
+    return (
+      <BrowserRouter>
+        <div className="App">
+          <Navigation />
+          <Switch>
+            <Route path="/" component={Home} exact />
+            <Route path="/GetStarted" component={GetStarted} />
+            <Route path="/About" component={About} />
+            <Route path="/TheParks" component={TheParks} />
+          </Switch>
+        </div>
+      </BrowserRouter>
+    );
+  }
 }
 
 export default App;
