@@ -1,12 +1,22 @@
-.infoBtns{
-	margin: 0.8rem;
-	height: 5rem;
-}
-
 .infoBtn{
 	font-size: large;
+	height: 6rem;
+	margin: 0.1rem;
+}
+
+.infoBtns {
+ text-align: left;
 }
 
 button.infoBtn.btn-secondary{
+	background-color: #4B5877;
 	font-size: larger;
+	border: #4B5877
+}
+
+.info{
+	background-color: #6c757d;
+	color: white;
+	text-align: left;
+	padding-left: 2rem;
 }
