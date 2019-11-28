@@ -12,7 +12,9 @@
 		"immutability-helper": "^3.0.1",
 		"node-sass": "^4.13.0",
 		"react": "^16.11.0",
+		"react-datepicker": "^2.10.1",
 		"react-dom": "^16.11.0",
+		"react-dropdown-date": "0.0.18",
 		"react-router-dom": "^5.1.2",
 		"react-scripts": "3.2.0",
 		"reactstrap": "^8.1.1"
