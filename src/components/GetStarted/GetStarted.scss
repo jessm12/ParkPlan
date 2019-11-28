@@ -1,6 +1,7 @@
 
 .getStartedForm {
-	padding: 2rem;
+	padding-top: 0.5rem;
+	padding-left: 2rem;
 }
 
 .form-group {
@@ -21,4 +22,9 @@ select {
 	border: 1px solid #ced4da;
 	border-radius: .25rem;
 	transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.formHeading {
+	padding: 1rem;
+	color: white;
 }

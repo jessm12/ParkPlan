@@ -16,10 +16,10 @@ class GetStarted extends Component {
 			<>
 				<div className='mainDiv'>
 					<HomepageImage className='homeImg' />
+					<h5 className='formHeading'> Before you can get started planning your dream park trip we'll need some info from you!</h5>
 				</div>
 				<div>
 					<Form className='getStartedForm'>
-						<h5> Before you can get started planning your dream park trip we'll need some info from you!</h5>
 						<Row form>
 							<Col md={6}>
 								<FormGroup>
