@@ -4,21 +4,46 @@ import { Button } from 'reactstrap';
 import '../../App.scss';
 import './Home.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+const nlp = require( 'wink-nlp-utils' );
 
 const initialState = {
 	waitTimes: false,
 	familyFriendly: false,
 	foodChoices: false,
 	visitorReviews: false,
-	parkNavigation: false
+	parkNavigation: false,
+	string: '',
+	tokenise: ''
 };
+
+var string = 'hello';
+var tokens = nlp.string.tokenize( string, true );
+var tokensList = [];
+for (var i=0; i < tokens.length; i++) {
+	tokensList.push(tokens[i].value);
+}
+//var stringRemovedStopWords = nlp.tokens.removeWords(tokensList)
+//console.log(stringRemovedStopWords)
 
 class Home extends Component {
 	constructor(props) {
     super(props);
 		this.handleClick = this.handleClick.bind(this);
+		this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.state = initialState
 	}
+
+	handleChange(event) {
+    this.setState({ string: event.target.value });
+	}
+
+  handleSubmit(event) {
+    event.preventDefault();
+    fetch(`/api/tokenise?name=${encodeURIComponent(this.state.string)}`)
+      .then(response => response.json())
+      .then(state => this.setState(state));
+  }
 	
 	handleReset() {
 		this.setState(initialState);
@@ -89,6 +114,17 @@ class Home extends Component {
 							<div className='info'>Park navigation</div>
 						}
 					</div>
+					<form onSubmit={this.handleSubmit}>
+            <label htmlFor="string">Enter string to tokenise: </label>
+            <input
+              id="name"
+              type="text"
+              value={this.state.string}
+              onChange={this.handleChange}
+            />
+            <button type="submit">Submit</button>
+          </form>
+          <p>{this.state.tokenise}</p>
 				</div>
 			</>
 		);
