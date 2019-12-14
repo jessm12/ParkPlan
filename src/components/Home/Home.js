@@ -4,7 +4,7 @@ import { Button } from 'reactstrap';
 import '../../App.scss';
 import './Home.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-const nlp = require( 'wink-nlp-utils' );
+// const nlp = require( 'wink-nlp-utils' );
 
 const initialState = {
 	waitTimes: false,
@@ -16,14 +16,14 @@ const initialState = {
 	tokenise: ''
 };
 
-var string = 'hello';
+/* var string = 'hello';
 var tokens = nlp.string.tokenize( string, true );
 var tokensList = [];
 for (var i=0; i < tokens.length; i++) {
 	tokensList.push(tokens[i].value);
 }
-//var stringRemovedStopWords = nlp.tokens.removeWords(tokensList)
-//console.log(stringRemovedStopWords)
+var stringRemovedStopWords = nlp.tokens.removeWords(tokensList)
+console.log(stringRemovedStopWords) */
 
 class Home extends Component {
 	constructor(props) {
@@ -42,7 +42,8 @@ class Home extends Component {
     event.preventDefault();
     fetch(`/api/tokenise?name=${encodeURIComponent(this.state.string)}`)
       .then(response => response.json())
-      .then(state => this.setState(state));
+			.then(state => this.setState(state));    
+		fetch(`/api/read`);
   }
 	
 	handleReset() {
