@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import '../../App.scss';
 import './FormStep2.scss';
-import HomepageImage from '../HomepageImage'
-import { Col, Row, FormText, Form, FormGroup, Label, Input } from 'reactstrap';
-import { YearPicker, MonthPicker, DayPicker } from 'react-dropdown-date';
+import { Col, Row, Form, FormGroup, Label, Input } from 'reactstrap';
 
 function Repeat(props) {
 	let items = [];
@@ -62,7 +60,7 @@ class Step2 extends Component {
 													<Input
 														value={this.state.age[index]}
 														type="text"
-														name="visitors"
+														name={`Visitor${index+1}Age`}
 														id="visitors"
 														placeholder={`Visitor ${index+1}`}
 													/>

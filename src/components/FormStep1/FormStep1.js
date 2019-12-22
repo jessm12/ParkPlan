@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import '../../App.scss';
 import './FormStep1.scss';
-import HomepageImage from '../HomepageImage'
 import { Col, Row, FormText, Form, FormGroup, Label, Input } from 'reactstrap';
 import { YearPicker, MonthPicker, DayPicker } from 'react-dropdown-date';
 
