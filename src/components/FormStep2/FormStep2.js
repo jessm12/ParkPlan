@@ -16,14 +16,25 @@ class Step2 extends Component {
 		super(props);
 		this.state = {
 			visitorCount: 1,
-			age: []
+			visitorAges: [0,0,0,0,0,0,0,0,0,0]
 		};
 		this.handleChange = this.handleChange.bind(this);
+		this.handleChangeAge = this.handleChangeAge.bind(this);
 	}
 
 	handleChange(event) {
 		var name = event.target.name
-    this.setState({[name]: event.target.value});
+		this.setState({[name]: event.target.value});
+		console.log(this.state);
+	}
+	
+	handleChangeAge(event) {
+		console.log(this.state.visitorAges)
+		var index = event.target.name
+		var visitorAge = event.target.value;
+		let visitorAges = [...this.state.visitorAges];
+		visitorAges[index] = visitorAge;
+		this.setState({visitorAges});
   }
 
 	render() {
@@ -38,12 +49,12 @@ class Step2 extends Component {
 						<Row form>
 							<Col md={9}>
 								<FormGroup>
-									<Label for="visitors">Number of visitors (including yourself)?</Label>
+									<Label for="visitors">Number of visitors (including yourself, maximum six)?</Label>
 									<Input
 										value={this.state.visitorCount}
 										type="text"
 										name="visitorCount"
-										id="visitors"
+										id="visitorCount"
 										placeholder="No. of visitors" 
 										onChange={this.handleChange}
 									/>
@@ -58,11 +69,13 @@ class Step2 extends Component {
 											{(index) => 
 												<>
 													<Input
-														value={this.state.age[index]}
+													  key={`${index+1}`}
+														value={this.state.visitorAges[index]}
 														type="text"
-														name={`Visitor${index+1}Age`}
-														id="visitors"
+														name={`${index}`}
+														id={`Visitor${index+1}Age`}
 														placeholder={`Visitor ${index+1}`}
+														onChange={this.handleChangeAge}
 													/>
 												</>
 											}

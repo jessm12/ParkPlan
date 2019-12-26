@@ -21,6 +21,14 @@ class GetStarted extends Component {
 		this.handleChange = this.handleChange.bind(this);
 	}
 
+	stepOneDataCallback = (email, year, month, day) => {
+
+	}
+
+	stepTwoDataCallback = (dataFromStepTwo) => {
+		
+	}
+
 	// Use the submitted data to set the state
 	handleChange(event) {
 		const {name, value} = event.target
@@ -92,10 +100,12 @@ class GetStarted extends Component {
 				<Row>
 					<Col>
 						<FormStep1 
+						  mainFormCallback={this.stepOneDataCallback}
 							currentStep={this.state.currentStep} 
 							handleChange={this.handleChange}
 						/>
 						<FormStep2
+							mainFormCallback={this.stepTwoDataCallback}
 							currentStep={this.state.currentStep} 
 							handleChange={this.handleChange}
 						/>

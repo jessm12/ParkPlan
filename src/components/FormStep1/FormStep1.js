@@ -8,11 +8,31 @@ class Step1 extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			year: null,
-			month: null,
-			day: null,
+			year: "2019",
+			month: "0",
+			day: "1",
+			email: ""
 		};
+
+		this.handleInputChange = this.handleInputChange.bind(this);
 	}
+
+	handleInputChange(event) {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+		});
+
+		this.props.mainFormCallback(
+			this.state.email,
+			this.state.year,
+			this.state.month,
+			this.state.day
+		);
+  }
 
 	render() {
 		if (this.props.currentStep !== 1) { // Prop: The current step
@@ -27,7 +47,14 @@ class Step1 extends Component {
 							<Col md={9}>
 								<FormGroup>
 									<Label for="email">Email</Label>
-									<Input type="email" name="email" id="exampleEmail" placeholder="example@example.com" />
+									<Input
+										type="email"
+										name="email"
+										id="exampleEmail"
+										placeholder="example@example.com"
+										value={this.state.email}
+										onChange={this.handleInputChange}
+									/>
 									<FormText> We need this so we can email you your plans! </FormText>
 								</FormGroup>
 							</Col>
@@ -38,11 +65,10 @@ class Step1 extends Component {
 								<FormGroup>
 									<Label for="year">Year</Label>
 									<div>
-										<YearPicker 
+										<YearPicker
 											value={this.state.year}
 											onChange={(year) => {
 												this.setState({ year });
-												console.log(year);
 											}}
 										/> 
 									</div>
@@ -57,7 +83,6 @@ class Step1 extends Component {
 											value={this.state.month}
 											onChange={(month) => {
 												this.setState({ month });
-												console.log(month);
 											}}
 										/> 
 									</div>
@@ -73,7 +98,6 @@ class Step1 extends Component {
 											value={this.state.day}
 											onChange={(day) => {
 												this.setState({ day });
-												console.log(day);
 											}}
 										/>  
 									</div>
