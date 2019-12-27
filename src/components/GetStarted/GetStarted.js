@@ -3,18 +3,20 @@ import '../../App.scss';
 import './GetStarted.scss';
 import FormStep1 from '../FormStep1';
 import FormStep2 from '../FormStep2';
-import { Button } from 'reactstrap'
-import { Col, Row } from 'reactstrap';
+import { Col, Row, Button } from 'reactstrap';
 import HomepageImage from '../HomepageImage'
 
 class GetStarted extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			email: null,
 			year: null,
 			month: null,
 			day: null,
-			currentStep: 1
+			visitorCount: null,
+			visitorAges: null,
+			currentStep: 1,
 		};
     this._next = this._next.bind(this);
     this._prev = this._prev.bind(this);
@@ -22,11 +24,19 @@ class GetStarted extends Component {
 	}
 
 	stepOneDataCallback = (email, year, month, day) => {
-
+		this.setState({
+			email,
+			year,
+			month,
+			day
+		})
 	}
 
-	stepTwoDataCallback = (dataFromStepTwo) => {
-		
+	stepTwoDataCallback = (visitorCount, visitorAges) => {
+		this.setState({
+			visitorCount,
+			visitorAges
+		})
 	}
 
 	// Use the submitted data to set the state
@@ -70,7 +80,6 @@ class GetStarted extends Component {
 				</Button>
 			)
 		}
-		// ...else return nothing
 		return null;
 	}
 
@@ -86,7 +95,24 @@ class GetStarted extends Component {
 				</Button>        
 			)
 		}
-		// ...else render nothing
+		return null;
+	}
+
+	get finalStep(){
+		let currentStep = this.state.currentStep;
+		// If the current step is 3, render the final step
+		if(currentStep ===3){
+			return (
+				<>
+					<h3>{this.state.email}</h3>
+					<h3>{this.state.year}</h3> 
+					<h3>{this.state.month}</h3>
+					<h3>{this.state.day}</h3> 
+					<h3>{this.state.visitorCount}</h3>    
+					<h3>{this.state.visitorAges}</h3> 
+				</>   
+			)
+		}
 		return null;
 	}
 
@@ -116,6 +142,7 @@ class GetStarted extends Component {
 						<Col md={9}>
 							{this.nextButton}
 							{this.previousButton}
+							{this.finalStep}
 						</Col>
 					</Row>
 				</div>

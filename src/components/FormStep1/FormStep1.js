@@ -24,14 +24,14 @@ class Step1 extends Component {
 
     this.setState({
       [name]: value
-		});
-
-		this.props.mainFormCallback(
-			this.state.email,
-			this.state.year,
-			this.state.month,
-			this.state.day
-		);
+		}, () => {
+			this.props.mainFormCallback(
+				this.state.email,
+				this.state.year,
+				this.state.month,
+				this.state.day
+			);
+		})
   }
 
 	render() {
@@ -68,7 +68,14 @@ class Step1 extends Component {
 										<YearPicker
 											value={this.state.year}
 											onChange={(year) => {
-												this.setState({ year });
+												this.setState({ year }, () => {
+													this.props.mainFormCallback(
+														this.state.email,
+														this.state.year,
+														this.state.month,
+														this.state.day
+													);
+												});
 											}}
 										/> 
 									</div>
@@ -82,7 +89,14 @@ class Step1 extends Component {
 											year={this.state.year}
 											value={this.state.month}
 											onChange={(month) => {
-												this.setState({ month });
+												this.setState({ month }, () => {
+													this.props.mainFormCallback(
+														this.state.email,
+														this.state.year,
+														this.state.month,
+														this.state.day
+													);
+												});
 											}}
 										/> 
 									</div>
@@ -97,7 +111,14 @@ class Step1 extends Component {
 											month={this.state.month}
 											value={this.state.day}
 											onChange={(day) => {
-												this.setState({ day });
+												this.setState({ day }, () => {
+													this.props.mainFormCallback(
+														this.state.email,
+														this.state.year,
+														this.state.month,
+														this.state.day
+													);
+												});
 											}}
 										/>  
 									</div>

@@ -26,6 +26,9 @@ class Step2 extends Component {
 		var name = event.target.name
 		this.setState({[name]: event.target.value});
 		console.log(this.state);
+		this.props.mainFormCallback(
+			this.state.visitorCount
+		);
 	}
 	
 	handleChangeAge(event) {
@@ -35,6 +38,9 @@ class Step2 extends Component {
 		let visitorAges = [...this.state.visitorAges];
 		visitorAges[index] = visitorAge;
 		this.setState({visitorAges});
+		this.props.mainFormCallback(
+			this.state.visitorAges
+		);
   }
 
 	render() {
