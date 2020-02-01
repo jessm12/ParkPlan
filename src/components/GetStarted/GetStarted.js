@@ -23,12 +23,9 @@ class GetStarted extends Component {
 		this.handleChange = this.handleChange.bind(this);
 	}
 
-	stepOneDataCallback = (email, year, month, day) => {
+	stepOneDataCallback = (email) => {
 		this.setState({
 			email,
-			year,
-			month,
-			day
 		})
 	}
 
@@ -105,9 +102,6 @@ class GetStarted extends Component {
 			return (
 				<>
 					<h3>{this.state.email}</h3>
-					<h3>{this.state.year}</h3> 
-					<h3>{this.state.month}</h3>
-					<h3>{this.state.day}</h3> 
 					<h3>{this.state.visitorCount}</h3>    
 					<h3>{this.state.visitorAges}</h3> 
 				</>   

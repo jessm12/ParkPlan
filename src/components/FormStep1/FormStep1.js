@@ -2,15 +2,11 @@ import React, { Component } from 'react';
 import '../../App.scss';
 import './FormStep1.scss';
 import { Col, Row, FormText, Form, FormGroup, Label, Input } from 'reactstrap';
-import { YearPicker, MonthPicker, DayPicker } from 'react-dropdown-date';
 
 class Step1 extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			year: "2019",
-			month: "0",
-			day: "1",
 			email: ""
 		};
 
@@ -27,9 +23,6 @@ class Step1 extends Component {
 		}, () => {
 			this.props.mainFormCallback(
 				this.state.email,
-				this.state.year,
-				this.state.month,
-				this.state.day
 			);
 		})
   }
@@ -56,72 +49,6 @@ class Step1 extends Component {
 										onChange={this.handleInputChange}
 									/>
 									<FormText> We need this so we can email you your plans! </FormText>
-								</FormGroup>
-							</Col>
-						</Row>
-						<Label>Date of Birth</Label>
-						<Row form>
-							<Col md={3}>
-								<FormGroup>
-									<Label for="year">Year</Label>
-									<div>
-										<YearPicker
-											value={this.state.year}
-											onChange={(year) => {
-												this.setState({ year }, () => {
-													this.props.mainFormCallback(
-														this.state.email,
-														this.state.year,
-														this.state.month,
-														this.state.day
-													);
-												});
-											}}
-										/> 
-									</div>
-								</FormGroup>
-							</Col>
-							<Col md={3}>
-								<FormGroup>
-									<Label for="month">Month</Label>
-									<div>
-										<MonthPicker 
-											year={this.state.year}
-											value={this.state.month}
-											onChange={(month) => {
-												this.setState({ month }, () => {
-													this.props.mainFormCallback(
-														this.state.email,
-														this.state.year,
-														this.state.month,
-														this.state.day
-													);
-												});
-											}}
-										/> 
-									</div>
-								</FormGroup>
-							</Col>
-							<Col md={3}>
-								<FormGroup>
-									<Label for="day">Day</Label>
-									<div>
-										<DayPicker 
-											year={this.state.year}
-											month={this.state.month}
-											value={this.state.day}
-											onChange={(day) => {
-												this.setState({ day }, () => {
-													this.props.mainFormCallback(
-														this.state.email,
-														this.state.year,
-														this.state.month,
-														this.state.day
-													);
-												});
-											}}
-										/>  
-									</div>
 								</FormGroup>
 							</Col>
 						</Row>
