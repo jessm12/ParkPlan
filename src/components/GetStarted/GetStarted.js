@@ -12,7 +12,12 @@ class GetStarted extends Component {
 		this.state = {
 			email: null,
 			park: null,
-			date: null,
+			date: [
+				{
+						"FAQ": ['Getting started guide', 'Selling policy'],
+						"Help & Support": ['Help guide', 'Selling policy'],
+						"Legal": ['Terms of Use', 'Privacy Policy']
+				}],
 			visitorCount: null,
 			visitorAges: null,
 			currentStep: 1,
@@ -97,14 +102,15 @@ class GetStarted extends Component {
 	}
 
 	get finalStep(){
+		let dateString = JSON.stringify(this.state.date).slice(1, 11)
 		let currentStep = this.state.currentStep;
 		// If the current step is 3, render the final step
 		if(currentStep ===3){
 			return (
 				<>
 					<h3>{this.state.email}</h3>
-					<h3>{this.state.park}</h3> 
-					<h3>{this.state.date}</h3>
+					<h3>{this.state.park}</h3>
+					<h3>{dateString}</h3>
 					<h3>{this.state.visitorCount}</h3>    
 					<h3>{this.state.visitorAges}</h3> 
 				</>   

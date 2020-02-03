@@ -22,7 +22,6 @@ class Step1 extends Component {
     const target = event.target;
     const value = target.value;
 		const name = target.name;
-		console.log(this.state.date)
 
     this.setState({
       [name]: value
@@ -44,7 +43,6 @@ class Step1 extends Component {
 				this.state.date
 			);
 		})
-		console.log(this.state.date)
 	}
 
 	render() {
