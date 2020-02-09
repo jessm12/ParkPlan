@@ -49,6 +49,7 @@ class Home extends Component {
 	
 	render() {
 		fetch(`/api/read`);
+		fetch(`/api/multi`);
 		return (
 			<>
 				<div className='mainDiv'>
