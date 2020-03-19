@@ -53,23 +53,7 @@ class Step1 extends Component {
 			<>
 				<div>
 					<Form className='getStartedForm'>
-						<h5> Personal Details </h5>
-						<Row form>
-							<Col md={9}>
-								<FormGroup>
-									<Label for="email">Email</Label>
-									<Input
-										type="email"
-										name="email"
-										id="exampleEmail"
-										placeholder="example@example.com"
-										value={this.state.email}
-										onChange={this.handleInputChange}
-									/>
-									<FormText> We need this so we can email you your plans! </FormText>
-								</FormGroup>
-							</Col>
-						</Row>
+						<h5> Visit Details </h5>
 						<Row form>
 							<Col md={5}>
 								<FormGroup>

@@ -15,10 +15,12 @@ class Step2 extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			group: "",
 			visitorCount: 1,
 			visitorAges: [0,0,0,0,0,0,0,0,0,0]
 		};
 		this.handleChange = this.handleChange.bind(this);
+		this.handleInputChange = this.handleChange.bind(this);
 		this.handleChangeAge = this.handleChangeAge.bind(this);
 	}
 
@@ -27,8 +29,25 @@ class Step2 extends Component {
 		this.setState({[name]: event.target.value});
 		console.log(this.state);
 		this.props.mainFormCallback(
+			this.state.group,
 			this.state.visitorCount
 		);
+	}
+
+	handleInputChange(event) {
+    const target = event.target;
+    const value = target.value;
+		const name = target.name;
+
+    this.setState({
+      [name]: value
+		}, () => {
+			this.props.mainFormCallback(
+				this.state.group,
+				this.state.visitorCount,
+				this.state.visitorAges
+			);
+		})
 	}
 	
 	handleChangeAge(event) {
@@ -39,6 +58,8 @@ class Step2 extends Component {
 		visitorAges[index] = visitorAge;
 		this.setState({visitorAges});
 		this.props.mainFormCallback(
+			this.state.group,
+			this.state.visitorCount,
 			this.state.visitorAges
 		);
   }
@@ -52,6 +73,25 @@ class Step2 extends Component {
 				<div>
 					<Form className='getStartedForm'>
 						<h5> Visitor Details </h5>
+						<Row form>
+							<Col md={5}>
+								<FormGroup>
+									<Label for="VisitingGroup">Which type of group are you visiting with?</Label>
+									<Input 
+										type="select" 
+										name="group" 
+										id="group" 
+										value={this.state.group}
+										onChange={this.handleInputChange}
+									>
+										<option>Family</option>
+										<option>Friends</option>
+										<option>Partner</option>
+										<option>Other</option>
+									</Input>
+								</FormGroup>
+							</Col>
+						</Row>
 						<Row form>
 							<Col md={9}>
 								<FormGroup>

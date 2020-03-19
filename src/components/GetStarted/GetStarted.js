@@ -18,6 +18,7 @@ class GetStarted extends Component {
 						"Help & Support": ['Help guide', 'Selling policy'],
 						"Legal": ['Terms of Use', 'Privacy Policy']
 				}],
+			group: null, 
 			visitorCount: null,
 			visitorAges: null,
 			currentStep: 1,
@@ -27,16 +28,16 @@ class GetStarted extends Component {
 		this.handleChange = this.handleChange.bind(this);
 	}
 
-	stepOneDataCallback = (email, park, date) => {
+	stepOneDataCallback = (park, date) => {
 		this.setState({
-			email,
 			park,
 			date
 		})
 	}
 
-	stepTwoDataCallback = (visitorCount, visitorAges) => {
+	stepTwoDataCallback = (group, visitorCount, visitorAges) => {
 		this.setState({
+			group,
 			visitorCount,
 			visitorAges
 		})
@@ -108,11 +109,11 @@ class GetStarted extends Component {
 		if(currentStep ===3){
 			return (
 				<>
-					<h3>{this.state.email}</h3>
 					<h3>{this.state.park}</h3>
 					<h3>{dateString}</h3>
 					<h3>{this.state.visitorCount}</h3>    
 					<h3>{this.state.visitorAges}</h3> 
+					<h3>{this.state.group}</h3> 
 				</>   
 			)
 		}
