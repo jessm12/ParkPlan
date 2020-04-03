@@ -11,6 +11,7 @@ const initialState = {
 	foodChoices: false,
 	visitorReviews: false,
 	parkNavigation: false,
+	data: null,
 	string: '',
 	tokenise: ''
 };
@@ -48,8 +49,6 @@ class Home extends Component {
 	}
 	
 	render() {
-		fetch(`/api/read`);
-		fetch(`/api/multi`);
 		return (
 			<>
 				<div className='mainDiv'>
@@ -106,7 +105,7 @@ class Home extends Component {
 							<div className='info'>Park navigation</div>
 						}
 					</div>
-					<form onSubmit={this.handleSubmit}>
+{/* 					<form onSubmit={this.handleSubmit}>
             <label htmlFor="string">Enter string to tokenise: </label>
             <input
               id="name"
@@ -116,7 +115,7 @@ class Home extends Component {
             />
             <button type="submit">Submit</button>
           </form>
-          <p>{this.state.tokenise}</p>
+          <p>{this.state.tokenise}</p> */}
 				</div>
 			</>
 		);

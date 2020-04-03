@@ -3,8 +3,10 @@ import '../../App.scss';
 import './GetStarted.scss';
 import FormStep1 from '../FormStep1';
 import FormStep2 from '../FormStep2';
+import FormStep3 from '../FormStep3';
 import { Col, Row, Button } from 'reactstrap';
 import HomepageImage from '../HomepageImage'
+import { PDFDownloadLink, Document, Page, Text, View, StyleSheet  } from '@react-pdf/renderer'
 
 class GetStarted extends Component {
 	constructor(props) {
@@ -12,16 +14,23 @@ class GetStarted extends Component {
 		this.state = {
 			email: null,
 			park: null,
-			date: [
-				{
-						"FAQ": ['Getting started guide', 'Selling policy'],
-						"Help & Support": ['Help guide', 'Selling policy'],
-						"Legal": ['Terms of Use', 'Privacy Policy']
-				}],
+			date: [{}],
 			group: null, 
+			output: null,
 			visitorCount: null,
 			visitorAges: null,
 			currentStep: 1,
+			money: 0,
+			family: 0,
+			time: 0,
+			food: 0,
+			shows: 0,
+			comparison: 0,
+			seasonal: 0,
+			accomodation: 0,
+			theme: 0,
+			rides: 0,
+			convenience: 0
 		};
     this._next = this._next.bind(this);
     this._prev = this._prev.bind(this);
@@ -32,7 +41,8 @@ class GetStarted extends Component {
 		this.setState({
 			park,
 			date
-		})
+		}, () =>
+		this.getDate());
 	}
 
 	stepTwoDataCallback = (group, visitorCount, visitorAges) => {
@@ -40,6 +50,23 @@ class GetStarted extends Component {
 			group,
 			visitorCount,
 			visitorAges
+		})
+	}
+
+	stepThreeDataCallback = (money, family, time, food, shows, comparison,
+	  seasonal, accomodation, theme, rides, convenience) => {
+		this.setState({
+			money,
+			family,
+			time,
+			food,
+			shows,
+			comparison,
+			seasonal,
+			accomodation,
+			theme,
+			rides,
+			convenience
 		})
 	}
 
@@ -53,8 +80,8 @@ class GetStarted extends Component {
 
 	_next() {
     let currentStep = this.state.currentStep
-    // If the current step is 1 or 2, then add one on "next" button click
-    currentStep = currentStep >= 2? 3: currentStep + 1
+    // If the current step is 1, 2 or 3, then add one on "next" button click
+    currentStep = currentStep >= 3? 4: currentStep + 1
     this.setState({
       currentStep: currentStep
     })
@@ -62,7 +89,7 @@ class GetStarted extends Component {
 	
 	_prev() {
     let currentStep = this.state.currentStep
-    // If the current step is 2 or 3, then subtract one on "previous" button click
+    // If the current step is 2, 3 or 4, then subtract one on "previous" button click
     currentStep = currentStep <= 1? 1: currentStep - 1
     this.setState({
       currentStep: currentStep
@@ -76,11 +103,13 @@ class GetStarted extends Component {
 		if(currentStep !==1){
 			return (
 				<Button 
+					size="lg"
+					className="nav-btn-prev"
 					type="button"
 					color='secondary'
 					onClick={this._prev}
 				>
-				Previous
+					Previous
 				</Button>
 			)
 		}
@@ -89,31 +118,75 @@ class GetStarted extends Component {
 
 	get nextButton(){
 		let currentStep = this.state.currentStep;
-		// If the current step is not 3, then render the "next" button
-		if(currentStep <3){
+		// If the current step is not 4, then render the "next" button
+		if(currentStep <4){
 			return (
-				<Button 
-					className="float-right" 
+				<Button
+					size="lg" 
+					className="nav-btn-next"
 					type="button" onClick={this._next}>
-				Next
+					Next
 				</Button>        
 			)
 		}
 		return null;
 	}
 
-	get finalStep(){
+	getDate() {
 		let dateString = JSON.stringify(this.state.date).slice(1, 11)
+			fetch(`/api/DBConnect?date=${encodeURIComponent(dateString)}`)
+				.then(response => response.json())
+				.then(state => this.setState(state, () => console.log(this.state.output)))
+				.catch(err => alert(err));
+	}
+
+	get finalStep(){
+
+		// Create styles
+		const styles = StyleSheet.create({
+			page: {
+				flexDirection: 'row',
+				backgroundColor: '#E4E4E4'
+			},
+			section: {
+				margin: 10,
+				padding: 10,
+				flexGrow: 1
+			}
+		});
+
+		let dateString = JSON.stringify(this.state.date).slice(1, 11)
+
+		// Create Document Component
+		const MyDocument = () => (
+			<Document>
+				<Page size="A4" style={styles.page}>
+					<View style={styles.section}>
+						<Text>{this.state.park}</Text>
+						<Text>{dateString}</Text>
+					</View>
+					<View style={styles.section}>
+						<Text>{this.state.output}</Text>
+					</View>
+				</Page>
+			</Document>
+		);
+
 		let currentStep = this.state.currentStep;
 		// If the current step is 3, render the final step
-		if(currentStep ===3){
+		if(currentStep ===4){
 			return (
 				<>
+					<h2>Is this data correct?</h2>
+					<h3>Park:</h3>
 					<h3>{this.state.park}</h3>
-					<h3>{dateString}</h3>
-					<h3>{this.state.visitorCount}</h3>    
-					<h3>{this.state.visitorAges}</h3> 
-					<h3>{this.state.group}</h3> 
+					<h3>Busy?</h3>
+					<h3>{this.state.output}</h3> 
+					<h3>Money:</h3> 
+					<h3>{this.state.money}</h3> 
+					<PDFDownloadLink document={<MyDocument />} fileName="somename.pdf">
+						{({ loading }) => (loading ? 'Loading document...' : 'Download now!')}
+					</PDFDownloadLink>
 				</>   
 			)
 		}
@@ -127,7 +200,7 @@ class GetStarted extends Component {
 				<HomepageImage className='homeImg' />
 				<h5 className='formHeading'> Before you can get started planning your dream park trip we'll need some info from you!</h5>
 				</div>
-				<Row>
+				<Row xs="1">
 					<Col>
 						<FormStep1 
 						  mainFormCallback={this.stepOneDataCallback}
@@ -139,14 +212,23 @@ class GetStarted extends Component {
 							currentStep={this.state.currentStep} 
 							handleChange={this.handleChange}
 						/>
+						<FormStep3
+							mainFormCallback={this.stepThreeDataCallback}
+							currentStep={this.state.currentStep} 
+							handleChange={this.handleChange}
+						/>
 					</Col>
 				</Row>
 				<div className='next-btn'>
-					<Row>
-						<Col md={9}>
-							{this.nextButton}
+					<Row xs="3">
+						<Col>
 							{this.previousButton}
+						</Col>
+						<Col>
 							{this.finalStep}
+						</Col>
+						<Col>
+							{this.nextButton}
 						</Col>
 					</Row>
 				</div>

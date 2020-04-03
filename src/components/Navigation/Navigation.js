@@ -16,14 +16,14 @@ const Navigation = () => {
 					Get Started
         </Button>
 			</NavLink>
-			<NavLink to="/About">
-				<Button className='navButton' color='secondary'>
-					About
-        </Button>
-			</NavLink>
 			<NavLink to="/TheParks">
 				<Button className='navButton' color='secondary'>
 					The Parks
+        </Button>
+			</NavLink>
+			<NavLink to="/About">
+				<Button className='navButton' color='secondary'>
+					About
         </Button>
 			</NavLink>
 		</div>

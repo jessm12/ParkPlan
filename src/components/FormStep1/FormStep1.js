@@ -1,21 +1,25 @@
 import React, { Component } from 'react';
 import '../../App.scss';
 import './FormStep1.scss';
-import { Col, Row, FormText, Form, 
+import { Col, Row, Form, 
 	FormGroup, Label, Input } from 'reactstrap';
-import Calendar from 'react-calendar';
-
+import DayPickerInput from 'react-day-picker/DayPickerInput';
+import 'react-day-picker/lib/style.css';
+import {
+  formatDate,
+  parseDate,
+} from 'react-day-picker/moment';
+	
 class Step1 extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			email: "",
 			park: "",
 			date: new Date()
 		};
 
 		this.handleInputChange = this.handleInputChange.bind(this);
-		this.onChange = this.onChange.bind(this);
+		this.handleChange = this.handleChange.bind(this);
 	}
 
 	handleInputChange(event) {
@@ -25,24 +29,19 @@ class Step1 extends Component {
 
     this.setState({
       [name]: value
-		}, () => {
+		}, () =>
 			this.props.mainFormCallback(
-				this.state.email,
 				this.state.park,
 				this.state.date
-			);
-		})
+			));
 	}
 	
-	onChange(date){
-		this.setState({
-			date }, () => {
+	handleChange(date){
+		this.setState({date}, () =>
 			this.props.mainFormCallback(
-				this.state.email,
 				this.state.park,
 				this.state.date
-			);
-		})
+			));
 	}
 
 	render() {
@@ -54,8 +53,10 @@ class Step1 extends Component {
 				<div>
 					<Form className='getStartedForm'>
 						<h5> Visit Details </h5>
-						<Row form>
-							<Col md={5}>
+						<Row form xs="3">
+							<Col>
+							</Col>
+							<Col>
 								<FormGroup>
 									<Label for="ParkSelection">Which park would you like to visit?</Label>
 									<Input 
@@ -73,17 +74,24 @@ class Step1 extends Component {
 									</Input>
 								</FormGroup>
 							</Col>
+							<Col>
+							</Col>
 						</Row>
-						<Row form>
-							<Col md={5}>
+						<Row form xs="3">
+							<Col>
+							</Col>
+							<Col>
 								<FormGroup>
 									<Label for="DateSelection">When would you like to visit?</Label>
-									<Calendar
-										name="date"
-										onChange={this.onChange}
-										value={this.state.date}
-        					/>
+									<DayPickerInput 
+										formatDate={formatDate}
+										parseDate={parseDate}
+										placeholder={`${formatDate(new Date())}`}
+										onDayChange={this.handleChange}
+									/>
 								</FormGroup>
+							</Col>
+							<Col>
 							</Col>
 						</Row>
 					</Form>

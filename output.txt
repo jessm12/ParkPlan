@@ -1,0 +1,8 @@
+
+> hello-react@0.1.0 start C:\Users\jessm\hello-react
+> webpack-dev-server --mode development
+
+[34mi[39m [90m｢wds｣[39m: Project is running at http://localhost:8080/
+[34mi[39m [90m｢wds｣[39m: webpack output is served from /
+[34mi[39m [90m｢wds｣[39m: Content not from webpack is served from ./dist
+[34mi[39m [90m｢wdm｣[39m: Failed to compile.

@@ -1,7 +1,6 @@
 .getStartedForm {
 	padding-top: 0.5rem;
 	padding-left: 2rem;
-	padding-right: 2rem;
 }
 
 .form-group {
@@ -27,4 +26,13 @@ select {
 .formHeading {
 	padding: 1rem;
 	color: white;
+}
+
+.row{
+	fieldset {
+		padding-left: 2rem;
+		legend {
+			font-size: 1.1rem;
+		}
+	}
 }

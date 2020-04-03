@@ -26,12 +26,11 @@ class Step2 extends Component {
 
 	handleChange(event) {
 		var name = event.target.name
-		this.setState({[name]: event.target.value});
-		console.log(this.state);
+		this.setState({[name]: event.target.value}, () =>
 		this.props.mainFormCallback(
 			this.state.group,
 			this.state.visitorCount
-		);
+		));
 	}
 
 	handleInputChange(event) {
@@ -41,13 +40,12 @@ class Step2 extends Component {
 
     this.setState({
       [name]: value
-		}, () => {
+		}, () =>
 			this.props.mainFormCallback(
 				this.state.group,
 				this.state.visitorCount,
 				this.state.visitorAges
-			);
-		})
+			));
 	}
 	
 	handleChangeAge(event) {
@@ -56,12 +54,12 @@ class Step2 extends Component {
 		var visitorAge = event.target.value;
 		let visitorAges = [...this.state.visitorAges];
 		visitorAges[index] = visitorAge;
-		this.setState({visitorAges});
+		this.setState({visitorAges}, () =>
 		this.props.mainFormCallback(
 			this.state.group,
 			this.state.visitorCount,
 			this.state.visitorAges
-		);
+		));
   }
 
 	render() {
@@ -73,8 +71,10 @@ class Step2 extends Component {
 				<div>
 					<Form className='getStartedForm'>
 						<h5> Visitor Details </h5>
-						<Row form>
-							<Col md={5}>
+						<Row form xs="3">
+							<Col>
+							</Col>
+							<Col>
 								<FormGroup>
 									<Label for="VisitingGroup">Which type of group are you visiting with?</Label>
 									<Input 
@@ -91,9 +91,13 @@ class Step2 extends Component {
 									</Input>
 								</FormGroup>
 							</Col>
+							<Col>
+							</Col>
 						</Row>
-						<Row form>
-							<Col md={9}>
+						<Row form xs="3">
+							<Col>
+							</Col>
+							<Col>
 								<FormGroup>
 									<Label for="visitors">Number of visitors (including yourself, maximum six)?</Label>
 									<Input
@@ -106,9 +110,13 @@ class Step2 extends Component {
 									/>
 								</FormGroup>
 							</Col>
+							<Col>
+							</Col>
 						</Row>
-						<Row form>
-							<Col md={3}>
+						<Row form xs="3">
+							<Col>
+							</Col>
+							<Col>
 								<FormGroup>
 									<Label>Visitor Ages</Label>
 									<Repeat numTimes={this.state.visitorCount}>
@@ -127,6 +135,8 @@ class Step2 extends Component {
 											}
     							</Repeat>
 								</FormGroup>
+							</Col>
+							<Col>
 							</Col>
 						</Row>
 					</Form>
