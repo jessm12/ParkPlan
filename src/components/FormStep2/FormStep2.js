@@ -49,7 +49,6 @@ class Step2 extends Component {
 	}
 	
 	handleChangeAge(event) {
-		console.log(this.state.visitorAges)
 		var index = event.target.name
 		var visitorAge = event.target.value;
 		let visitorAges = [...this.state.visitorAges];

@@ -1,4 +1,5 @@
 import './App.scss';
+import './index.css'
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Navigation from './components/Navigation';
@@ -6,7 +7,8 @@ import Home from './components/Home'
 import GetStarted from './components/GetStarted';
 import About from './components/About';
 import TheParks from './components/TheParks';
-
+import { render } from 'react-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faClock, faChild, faHamburger, faUserCheck, faMapSigns} from '@fortawesome/free-solid-svg-icons'
 
@@ -30,4 +32,4 @@ class App extends Component {
   }
 }
 
-export default App;
+render(<App/>, document.getElementById('app'));

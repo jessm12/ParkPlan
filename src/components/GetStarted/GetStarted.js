@@ -7,13 +7,20 @@ import FormStep3 from '../FormStep3';
 import { Col, Row, Button } from 'reactstrap';
 import HomepageImage from '../HomepageImage'
 import { PDFDownloadLink, Document, Page, Text, View, StyleSheet  } from '@react-pdf/renderer'
+import axios from 'axios';
+
+const API_PATH = 'http://cojlm.sci-project.lboro.ac.uk/api/parkdateinfo/index.php';
 
 class GetStarted extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			api: null,
 			email: null,
 			park: null,
+			parkID: null,
+			openTime: null,
+			crowdLevel: null,
 			date: [{}],
 			group: null, 
 			output: null,
@@ -37,12 +44,13 @@ class GetStarted extends Component {
 		this.handleChange = this.handleChange.bind(this);
 	}
 
-	stepOneDataCallback = (park, date) => {
+	stepOneDataCallback = (park, parkID, date) => {
 		this.setState({
 			park,
+			parkID,
 			date
 		}, () =>
-		this.getDate());
+		this.getDateParkInfo());
 	}
 
 	stepTwoDataCallback = (group, visitorCount, visitorAges) => {
@@ -72,6 +80,7 @@ class GetStarted extends Component {
 
 	// Use the submitted data to set the state
 	handleChange(event) {
+		console.log("handle change")
 		const {name, value} = event.target
 		this.setState({
 			[name]: value
@@ -132,12 +141,28 @@ class GetStarted extends Component {
 		return null;
 	}
 
-	getDate() {
-		let dateString = JSON.stringify(this.state.date).slice(1, 11)
-			fetch(`/api/DBConnect?date=${encodeURIComponent(dateString)}`)
-				.then(response => response.json())
-				.then(state => this.setState(state, () => console.log(this.state.output)))
-				.catch(err => alert(err));
+	getDateParkInfo() {
+		axios({
+			method: 'post',
+			url: `${API_PATH}`,
+			headers: { 'content-type': 'application/json' },
+			data: this.state
+		})
+			.then(result => {
+				console.log('result');
+				console.log(result);
+				console.log(result.data);
+				this.setState({
+					openTime: result.opentime,
+					crowdLevel: result.crowdlevel
+				})
+			})
+			.catch(error => console.log('error' + error));
+		// let dateString = JSON.stringify(this.state.date).slice(1, 11)
+		// 	fetch(`/api/DBConnect?date=${encodeURIComponent(dateString)}`)
+		// 		.then(response => response.json())
+		// 		.then(state => this.setState(state, () => console.log(this.state.output)))
+		// 		.catch(err => alert(err));
 	}
 
 	get finalStep(){

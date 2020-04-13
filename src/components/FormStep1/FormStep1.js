@@ -9,12 +9,28 @@ import {
   formatDate,
   parseDate,
 } from 'react-day-picker/moment';
+
+function extractID(value) {
+	var ID = null;
+	if (value == "Disneyland Paris - France")
+		ID = 4;
+	else if (value == "Disney's Hollywood Studios - Florida, USA") 
+		ID = 7;
+	else if (value == "Epcot - Florida, USA")
+		ID = 5;
+	else if (value == "Magic Kingdom Park - Florida, USA")
+		ID = 6;
+	else
+		ID = 19;
+	return ID;
+}
 	
 class Step1 extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			park: "",
+			parkID: 0,
 			date: new Date()
 		};
 
@@ -27,11 +43,16 @@ class Step1 extends Component {
     const value = target.value;
 		const name = target.name;
 
+		var ID = extractID(value);
+		console.log("ID" + ID);
+
     this.setState({
-      [name]: value
+			[name]: value,
+			parkID: ID 
 		}, () =>
 			this.props.mainFormCallback(
 				this.state.park,
+				this.state.parkID,
 				this.state.date
 			));
 	}
@@ -40,6 +61,7 @@ class Step1 extends Component {
 		this.setState({date}, () =>
 			this.props.mainFormCallback(
 				this.state.park,
+				this.state.parkID,
 				this.state.date
 			));
 	}

@@ -8,6 +8,7 @@ const limdu = require('limdu');
 const mysql = require('mysql');
 
 const app = express();
+app.use(express.static('assets/bundle'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(pino);
 
@@ -103,6 +104,4 @@ app.get('/api', (req, res) => {
   res.send(mockResponse);
 });
 
-app.listen(3001, () =>
-  console.log('Express server is running on localhost:3001')
-);
+app.listen(process.env.PORT || 8080, () => console.log(`Listening on port ${process.env.PORT || 8080}!`));

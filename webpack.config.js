@@ -1,12 +1,15 @@
+const path = require('path');
+
 module.exports = {
-  entry: './src/index.js',
+  entry: {     
+		main: [
+			'./src/App.js',
+			'./src/App.scss'
+	]},
   output: {
-    path: __dirname + '/dist',
-    publicPath: '/dist/',
-    filename: 'bundle.js'
-  },
-  devServer: {
-    contentBase: './dist',
+    path: path.resolve(__dirname, 'assets', 'bundle'),
+		publicPath: '/',
+    filename: '[name].bundle.js'
   },
   module: {
     rules: [{
@@ -17,6 +20,7 @@ module.exports = {
       test: /\.(sass|scss|css)$/,
       use: ['style-loader', 'css-loader', 'sass-loader']
     },{
+			exclude: [/\.js$/, /\.html$/, /\.json$/, /\.ejs$/],
 			test: /\.(png|jpe?g|gif)$/i,
 			use: ['file-loader'],
 		}]
