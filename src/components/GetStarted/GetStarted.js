@@ -194,7 +194,7 @@ class GetStarted extends Component {
 						<Text>{this.state.crowdLevel}</Text>
 					</View>
 					<View style={styles.section}>
-						<Rides userRides={this.state.userRides}></Rides>
+						<Rides preferences={classify([0,4,31,18,30,0])}></Rides>
 					</View>
 				</Page>
 			</Document>

@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import '../../App.scss'
+import { Text } from '@react-pdf/renderer'
+
 
 class Rides extends Component {
 	constructor(props) {
@@ -10,9 +12,15 @@ class Rides extends Component {
 	}
 
 	getGuestPreferences(preferences) {
-		const preferenceByType = {'thrill rides': 0, 'water rides': 0, 
+		const preferenceByTag = {'thrill rides': 0, 'water rides': 0, 
 		'big drops': 0,	'small drops': 0, 'dark': 0, 'loud': 0,
-		'scary': 0,	'interactive': 0, 'spinning': 0, 'stage show': 0}
+		'scary': 0,	'interactive': 0, 'spinning': 0, 'stage show': 0,
+		'slow rides': 0}
+
+		const tagTotals = {'thrill rides': 0, 'water rides': 0, 
+		'big drops': 0,	'small drops': 0, 'dark': 0, 'loud': 0,
+		'scary': 0,	'interactive': 0, 'spinning': 0, 'stage show': 0,
+		'slow rides': 0}
 	
 		const tags = [
 			['thrill rides', 'small drops', 'dark'],
@@ -30,14 +38,25 @@ class Rides extends Component {
 
 		for (let i = 0; i < preferences.length; i++) {
 			for (const tag of tags[i]) {
-				preferenceByType[tag]++;
+				if (preferences[i] == 1) {
+					preferenceByTag[tag]++
+				}
+				tagTotals[tag]++;
 			}
 		}
+
+		for (const key in tagTotals){
+			preferenceByTag[key]/=tagTotals[key];
+		}
+
+		console.log(preferenceByTag);
+		return preferenceByTag;
 	}
 
 	render() {
 		return (
 			<>
+				<Text>{JSON.stringify(this.getGuestPreferences(this.props.preferences))}</Text>
 			</>
 		);
 	}
