@@ -5,7 +5,8 @@ module.exports = {
 		main: [
 			'./src/App.js',
 			'./src/App.scss'
-	]},
+  ]},
+  devtool: 'inline-source-map',
   output: {
     path: path.resolve(__dirname, 'assets', 'bundle'),
 		publicPath: '/',
