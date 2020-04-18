@@ -24,32 +24,20 @@ header("Access-Control-Allow-Origin: *");
 
 if (true)
 	{
-		$visitingDay = strval($data['day']);
-		$visitingMonth = strval($data['month']);
-		
-		if (strlen($visitingDay) < 2)
-		$visitingDay = '0'.$visitingDay;
-	
-		if (strlen($visitingMonth) < 2)
-			$visitingMonth = '0'.$visitingMonth;
-	
-		$visitingDate = $visitingDay.'/'.$visitingMonth.'/2019';
-
-		$parkID = $data['parkID'];
-		$park = $data['park'];
+		$parkID = $data['park_id'];
 
 		$conn = OpenCon();
 		
-		$stmt = $conn->prepare('SELECT open_time, actual_crowd_level FROM crowd_calendar WHERE park_id = ? AND open_date = ?');
-		$stmt->bind_param('is', $parkID,$visitingDate);
+		$stmt = $conn->prepare('SELECT name, average_wait_times FROM rides WHERE park_id = ?');
+		$stmt->bind_param('i', $parkID);
 		$stmt->execute();
 
-		$stmt->bind_result($data[0], $data[1]);
+		$stmt->bind_result($name, $averagewaits);
 
+		$rides = array();
 		while ($stmt->fetch()) {
-			$opentime = $data[0];
-			$crowdlevel = $data[1];
-	 }
+			$rides[] = array('name' => $name, 'average_waits' => $averagewaits);
+	  }
 
 		CloseCon($conn);
 
@@ -60,9 +48,7 @@ if (true)
 		$headers.= "Content-type: text/html; charset=UTF-8\r\n";
 
 		echo json_encode(array(
-			"sent" => $park,
-			"crowdlevel" => $crowdlevel,
-			"opentime" => $opentime
+			"data" => $rides
 		));
 	}
   else

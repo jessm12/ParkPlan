@@ -1,5 +1,7 @@
 <?php
 
+require('simple_html_dom.php');
+
 function OpenCon()
 {
 	$dbhost = "localhost";
@@ -24,32 +26,34 @@ header("Access-Control-Allow-Origin: *");
 
 if (true)
 	{
-		$visitingDay = strval($data['day']);
-		$visitingMonth = strval($data['month']);
-		
-		if (strlen($visitingDay) < 2)
-		$visitingDay = '0'.$visitingDay;
-	
-		if (strlen($visitingMonth) < 2)
-			$visitingMonth = '0'.$visitingMonth;
-	
-		$visitingDate = $visitingDay.'/'.$visitingMonth.'/2019';
-
-		$parkID = $data['parkID'];
-		$park = $data['park'];
+		$parkID = $data['park_id'];
 
 		$conn = OpenCon();
 		
-		$stmt = $conn->prepare('SELECT open_time, actual_crowd_level FROM crowd_calendar WHERE park_id = ? AND open_date = ?');
-		$stmt->bind_param('is', $parkID,$visitingDate);
+		$stmt = $conn->prepare('SELECT `name`, `url` FROM rides WHERE park_id= ?');
+		$stmt->bind_param('i', $parkID);
 		$stmt->execute();
+		$stmt -> store_result(); 
+		$stmt->bind_result($name, $url);
 
-		$stmt->bind_result($data[0], $data[1]);
-
+		$rides = array();
 		while ($stmt->fetch()) {
-			$opentime = $data[0];
-			$crowdlevel = $data[1];
-	 }
+			$rides[] = array('name' => $name, 'url' => $url);
+	  }
+
+	 	foreach($rides as $ride){
+			$name = $ride['name'];	
+			$url = $ride['url'];	
+			$url .= '/average_by_level';	
+
+			$html = file_get_html($url);
+
+			echo var_dump(strip_tags($html));
+
+			$stmt = $conn->prepare('UPDATE rides SET average_wait_times = ? WHERE name= ?');
+			$stmt->bind_param('ss', strip_tags($html), $name);
+			$stmt->execute();
+		}
 
 		CloseCon($conn);
 
@@ -58,18 +62,11 @@ if (true)
 
 		$headers = "MIME-Version: 1.0\r\n";
 		$headers.= "Content-type: text/html; charset=UTF-8\r\n";
-
-		echo json_encode(array(
-			"sent" => $park,
-			"crowdlevel" => $crowdlevel,
-			"opentime" => $opentime
-		));
 	}
   else
 	{
 
 	// tell the user about error
-
 		echo json_encode(["sent" => false, "message" => "Something went wrong"]);
 	}
 
