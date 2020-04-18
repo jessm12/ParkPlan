@@ -46,6 +46,8 @@ class Step1 extends Component {
 		var ID = extractID(value);
 		console.log("ID" + ID);
 
+		var month = this.state.date.getMonth() + 1;
+
     this.setState({
 			[name]: value,
 			parkID: ID 
@@ -53,16 +55,20 @@ class Step1 extends Component {
 			this.props.mainFormCallback(
 				this.state.park,
 				this.state.parkID,
-				this.state.date
+				this.state.date.getDate(),
+				month
 			));
 	}
 	
 	handleChange(date){
+		var month = this.state.date.getMonth() + 1;
+
 		this.setState({date}, () =>
 			this.props.mainFormCallback(
 				this.state.park,
 				this.state.parkID,
-				this.state.date
+				this.state.date.getDate(),
+				month
 			));
 	}
 

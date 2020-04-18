@@ -4,6 +4,8 @@ import './GetStarted.scss';
 import FormStep1 from '../FormStep1';
 import FormStep2 from '../FormStep2';
 import FormStep3 from '../FormStep3';
+import {classify} from '../tree.js'
+import Rides from '../Rides';
 import { Col, Row, Button } from 'reactstrap';
 import HomepageImage from '../HomepageImage'
 import { PDFDownloadLink, Document, Page, Text, View, StyleSheet  } from '@react-pdf/renderer'
@@ -21,11 +23,14 @@ class GetStarted extends Component {
 			parkID: null,
 			openTime: null,
 			crowdLevel: null,
-			date: [{}],
+			day: null,
+			month: null,
 			group: null, 
 			output: null,
 			visitorCount: null,
 			visitorAges: null,
+			preferences: null,
+			userRides: null,
 			currentStep: 1,
 			money: 0,
 			family: 0,
@@ -44,11 +49,12 @@ class GetStarted extends Component {
 		this.handleChange = this.handleChange.bind(this);
 	}
 
-	stepOneDataCallback = (park, parkID, date) => {
+	stepOneDataCallback = (park, parkID, day, month) => {
 		this.setState({
 			park,
 			parkID,
-			date
+			day,
+			month
 		}, () =>
 		this.getDateParkInfo());
 	}
@@ -153,16 +159,11 @@ class GetStarted extends Component {
 				console.log(result);
 				console.log(result.data);
 				this.setState({
-					openTime: result.opentime,
-					crowdLevel: result.crowdlevel
+					openTime: result.data.opentime,
+					crowdLevel: result.data.crowdlevel
 				})
 			})
 			.catch(error => console.log('error' + error));
-		// let dateString = JSON.stringify(this.state.date).slice(1, 11)
-		// 	fetch(`/api/DBConnect?date=${encodeURIComponent(dateString)}`)
-		// 		.then(response => response.json())
-		// 		.then(state => this.setState(state, () => console.log(this.state.output)))
-		// 		.catch(err => alert(err));
 	}
 
 	get finalStep(){
@@ -180,7 +181,7 @@ class GetStarted extends Component {
 			}
 		});
 
-		let dateString = JSON.stringify(this.state.date).slice(1, 11)
+		let dateString = this.state.day + '/' + this.state.month;
 
 		// Create Document Component
 		const MyDocument = () => (
@@ -189,9 +190,11 @@ class GetStarted extends Component {
 					<View style={styles.section}>
 						<Text>{this.state.park}</Text>
 						<Text>{dateString}</Text>
+						<Text>{this.state.openTime}</Text>
+						<Text>{this.state.crowdLevel}</Text>
 					</View>
 					<View style={styles.section}>
-						<Text>{this.state.output}</Text>
+						<Rides userRides={this.state.userRides}></Rides>
 					</View>
 				</Page>
 			</Document>
@@ -199,16 +202,20 @@ class GetStarted extends Component {
 
 		let currentStep = this.state.currentStep;
 		// If the current step is 3, render the final step
+		
 		if(currentStep ===4){
 			return (
 				<>
+					{classify([0,4,31,18,30,0])}
 					<h2>Is this data correct?</h2>
 					<h3>Park:</h3>
 					<h3>{this.state.park}</h3>
-					<h3>Busy?</h3>
-					<h3>{this.state.output}</h3> 
-					<h3>Money:</h3> 
-					<h3>{this.state.money}</h3> 
+					<h3>Crowd level:</h3>
+					<h3>{this.state.crowdLevel}</h3> 
+					<h3>Open time:</h3>
+					<h3>{this.state.openTime}</h3> 
+					<h3>Date:</h3> 
+					<h3>{dateString}</h3> 
 					<PDFDownloadLink document={<MyDocument />} fileName="somename.pdf">
 						{({ loading }) => (loading ? 'Loading document...' : 'Download now!')}
 					</PDFDownloadLink>
