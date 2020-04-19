@@ -120,17 +120,15 @@ class Step2 extends Component {
 									<Label>Visitor Ages</Label>
 									<Repeat numTimes={this.state.visitorCount}>
 											{(index) => 
-												<>
-													<Input
-													  key={`${index+1}`}
-														value={this.state.visitorAges[index]}
-														type="text"
-														name={`${index}`}
-														id={`Visitor${index+1}Age`}
-														placeholder={`Visitor ${index+1}`}
-														onChange={this.handleChangeAge}
-													/>
-												</>
+												<Input
+													key={`${index+1}`}
+													value={this.state.visitorAges[index]}
+													type="text"
+													name={`${index}`}
+													id={`Visitor${index+1}Age`}
+													placeholder={`Visitor ${index+1}`}
+													onChange={this.handleChangeAge}
+												/>
 											}
     							</Repeat>
 								</FormGroup>
