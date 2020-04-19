@@ -86,7 +86,6 @@ class GetStarted extends Component {
 
 	// Use the submitted data to set the state
 	handleChange(event) {
-		console.log("handle change")
 		const {name, value} = event.target
 		this.setState({
 			[name]: value
@@ -155,9 +154,6 @@ class GetStarted extends Component {
 			data: this.state
 		})
 			.then(result => {
-				console.log('result');
-				console.log(result);
-				console.log(result.data);
 				this.setState({
 					openTime: result.data.opentime,
 					crowdLevel: result.data.crowdlevel
@@ -194,7 +190,6 @@ class GetStarted extends Component {
 						<Text>{this.state.crowdLevel}</Text>
 					</View>
 					<View style={styles.section}>
-						<Rides preferences={classify([0,4,31,18,30,0])}></Rides>
 					</View>
 				</Page>
 			</Document>
@@ -206,7 +201,7 @@ class GetStarted extends Component {
 		if(currentStep ===4){
 			return (
 				<>
-					{classify([0,4,31,18,30,0])}
+					<Rides parkID={this.state.parkID} preferences={classify([0,4,31,18,30,0])}></Rides>
 					<h2>Is this data correct?</h2>
 					<h3>Park:</h3>
 					<h3>{this.state.park}</h3>

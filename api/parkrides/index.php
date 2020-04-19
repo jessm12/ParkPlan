@@ -24,19 +24,19 @@ header("Access-Control-Allow-Origin: *");
 
 if (true)
 	{
-		$parkID = $data['park_id'];
+		$parkID = $data;
 
 		$conn = OpenCon();
 		
-		$stmt = $conn->prepare('SELECT name, average_wait_times FROM rides WHERE park_id = ?');
+		$stmt = $conn->prepare('SELECT name, average_wait_times, tags FROM rides WHERE park_id = ?');
 		$stmt->bind_param('i', $parkID);
 		$stmt->execute();
 
-		$stmt->bind_result($name, $averagewaits);
+		$stmt->bind_result($name, $averagewaits, $tags);
 
 		$rides = array();
 		while ($stmt->fetch()) {
-			$rides[] = array('name' => $name, 'average_waits' => $averagewaits);
+			$rides[] = array('name' => $name, 'average_waits' => $averagewaits, 'tags' => $tags);
 	  }
 
 		CloseCon($conn);
@@ -47,9 +47,9 @@ if (true)
 		$headers = "MIME-Version: 1.0\r\n";
 		$headers.= "Content-type: text/html; charset=UTF-8\r\n";
 
-		echo json_encode(array(
-			"data" => $rides
-		));
+		echo json_encode(
+			$rides
+		);
 	}
   else
 	{

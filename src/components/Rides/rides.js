@@ -1,18 +1,35 @@
 import React, {Component} from 'react';
 import '../../App.scss'
 import { Text } from '@react-pdf/renderer'
+import axios from 'axios';
 
+const API_PATH = 'http://cojlm.sci-project.lboro.ac.uk/api/parkrides/index.php';
 
 class Rides extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			features: null
+			features: null,
+			rides: null,
 		};
+
+		this.getGuestRidesFromPreferences = this.getGuestRidesFromPreferences.bind(this);
+		this.getParkRides = this.getParkRides.bind(this);
 	}
 
-	getGuestPreferences(preferences) {
-		const preferenceByTag = {'thrill rides': 0, 'water rides': 0, 
+	getParkRides(parkID) {
+		return axios({
+			method: 'post',
+			url: `${API_PATH}`,
+			headers: { 'content-type': 'application/json' },
+			data: parkID,
+		})
+	}
+
+	async getGuestRidesFromPreferences(preferences, parkID) {
+		let rides = (await this.getParkRides(parkID)).data;
+
+		let preferenceByTag = {'thrill rides': 0, 'water rides': 0, 
 		'big drops': 0,	'small drops': 0, 'dark': 0, 'loud': 0,
 		'scary': 0,	'interactive': 0, 'spinning': 0, 'stage show': 0,
 		'slow rides': 0}
@@ -37,26 +54,46 @@ class Rides extends Component {
 		]
 
 		for (let i = 0; i < preferences.length; i++) {
-			for (const tag of tags[i]) {
+			for (const tag1 of tags[i]) {
 				if (preferences[i] == 1) {
-					preferenceByTag[tag]++
+					preferenceByTag[tag1]++
 				}
-				tagTotals[tag]++;
+				tagTotals[tag1]++;
 			}
 		}
 
-		for (const key in tagTotals){
-			preferenceByTag[key]/=tagTotals[key];
+		for (const tag2 in tagTotals){
+			preferenceByTag[tag2]/=tagTotals[tag2];
 		}
 
-		console.log(preferenceByTag);
-		return preferenceByTag;
+		for (let ride of rides){
+			const rideTags = ride.tags.split(',');
+			let probability = 1;
+			for (const tag3 of rideTags){
+				let tagPref = preferenceByTag[tag3];
+				probability = probability * tagPref;
+			}
+			ride.probability = probability;
+		}
+
+		rides.sort((a, b) => (a.probability < b.probability) ? 1 : -1)
+
+		rides = rides.slice(0,6);
+
+		return rides;
+	}
+
+	componentDidMount(){
+		this.getGuestRidesFromPreferences(this.props.preferences, this.props.parkID)
+		.then(rides => this.setState({rides}))
 	}
 
 	render() {
 		return (
 			<>
-				<Text>{JSON.stringify(this.getGuestPreferences(this.props.preferences))}</Text>
+				{this.state.rides && (
+					<p>{JSON.stringify(this.state.rides)}</p>
+				)}
 			</>
 		);
 	}

@@ -44,7 +44,6 @@ class Step1 extends Component {
 		const name = target.name;
 
 		var ID = extractID(value);
-		console.log("ID" + ID);
 
 		var month = this.state.date.getMonth() + 1;
 
