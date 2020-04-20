@@ -1,6 +1,6 @@
 import React from 'react';
 import './HomepageImage.scss';
-import logo from './Disney.jpg';
+import logo from './images/Disney.jpg';
 
 function HomepageImage() {
 	return (

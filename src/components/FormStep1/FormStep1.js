@@ -80,12 +80,12 @@ class Step1 extends Component {
 				<div>
 					<Form className='getStartedForm'>
 						<h5> Visit Details </h5>
-						<Row form xs="3">
-							<Col>
+						<Row>
+							<Col md={3}>
 							</Col>
-							<Col>
+							<Col md={6}>
 								<FormGroup>
-									<Label for="ParkSelection">Which park would you like to visit?</Label>
+									<Label for="ParkSelection">Choose a park to visit: </Label>
 									<Input 
 										type="select" 
 										name="park" 
@@ -101,15 +101,15 @@ class Step1 extends Component {
 									</Input>
 								</FormGroup>
 							</Col>
-							<Col>
+							<Col md={3}>
 							</Col>
 						</Row>
-						<Row form xs="3">
-							<Col>
+						<Row>
+							<Col md={3}>
 							</Col>
-							<Col>
+							<Col md={6}>
 								<FormGroup>
-									<Label for="DateSelection">When would you like to visit?</Label>
+									<Label for="DateSelection">Choose a date to visit: </Label>
 									<DayPickerInput 
 										formatDate={formatDate}
 										parseDate={parseDate}
@@ -118,7 +118,7 @@ class Step1 extends Component {
 									/>
 								</FormGroup>
 							</Col>
-							<Col>
+							<Col md={3}>
 							</Col>
 						</Row>
 					</Form>

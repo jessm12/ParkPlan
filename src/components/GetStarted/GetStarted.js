@@ -59,11 +59,14 @@ class GetStarted extends Component {
 		this.getDateParkInfo());
 	}
 
-	stepTwoDataCallback = (group, visitorCount, visitorAges) => {
+	stepTwoDataCallback = (group, visitorCount, visitorAges, 
+		regular, waitTimePref) => {
 		this.setState({
 			group,
 			visitorCount,
-			visitorAges
+			visitorAges,
+			regular,
+			waitTimePref
 		})
 	}
 
@@ -205,6 +208,14 @@ class GetStarted extends Component {
 					<h2>Is this data correct?</h2>
 					<h3>Park:</h3>
 					<h3>{this.state.park}</h3>
+					<h3>Group:</h3>
+					<h3>{this.state.group}</h3>
+					<h3>Group size:</h3>
+					<h3>{this.state.visitorCount}</h3>
+					<h3>Wait time:</h3>
+					<h3>{this.state.waitTimePref}</h3>
+					<h3>Regular:</h3>
+					<h3>{this.state.regular}</h3>
 					<h3>Crowd level:</h3>
 					<h3>{this.state.crowdLevel}</h3> 
 					<h3>Open time:</h3>
