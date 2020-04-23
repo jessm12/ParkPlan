@@ -13,6 +13,7 @@
 		"@fortawesome/react-fontawesome": "^0.1.7",
 		"@progress/kendo-react-dateinputs": "^3.12.0",
 		"@react-pdf/renderer": "^1.6.8",
+		"@react-pdf/styled-components": "^1.4.0",
 		"axios": "^0.19.2",
 		"babel-polyfill": "^6.26.0",
 		"bootstrap": "^4.3.1",

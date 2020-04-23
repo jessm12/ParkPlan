@@ -10,6 +10,7 @@ import { Col, Row, Button } from 'reactstrap';
 import HomepageImage from '../HomepageImage'
 import { PDFDownloadLink, Document, Page, Text, View, StyleSheet  } from '@react-pdf/renderer'
 import axios from 'axios';
+import styled from '@react-pdf/styled-components';
 
 const API_PATH = 'http://cojlm.sci-project.lboro.ac.uk/api/parkdateinfo/index.php';
 
@@ -165,13 +166,86 @@ class GetStarted extends Component {
 			.catch(error => console.log('error' + error));
 	}
 
+	constructClassifyArray() {
+		let classifyArray = [];
+
+		// get group type
+		if (this.state.group == 'Family') {
+			classifyArray.push(0);
+		} else if (this.state.group == 'Friends') {
+			classifyArray.push(1);
+		} else {
+			classifyArray.push(2);
+		}
+
+		const groupCount = parseInt(this.state.visitorCount)
+		// get group count 
+		classifyArray.push(groupCount);
+
+		let ages = this.state.visitorAges.slice(0, groupCount)
+		// get average age
+		let sum = 0;
+		for(let i=0; i < ages.length; i++){
+			sum+= parseInt(ages[i]);
+		}
+		let agesAvg = sum/ages.length;
+		classifyArray.push(Math.round(agesAvg));
+
+		// get youngest age
+		const agesMin = arr => Math.min(...arr);
+		classifyArray.push(agesMin(ages));
+
+		// get wait time preference
+		console.log(this.state.waitTimePref);
+		let	waitTime = this.state.waitTimePref.replace(/\D/g,'');
+		classifyArray.push(parseInt(waitTime));
+
+		// get regular visitor response
+		if (this.state.regular == 'Strongly agree') {
+			classifyArray.push(4);
+		} else if (this.state.regular == 'Agree') {
+			classifyArray.push(3); 
+		} else if (this.state.regular == 'Neither agree nor disagree') {
+			classifyArray.push(2);
+		} else if (this.state.regular == 'Disagree') {
+			classifyArray.push(1);
+		} else {
+			classifyArray.push(0);
+		}
+
+		return classifyArray
+	}
+
 	get finalStep(){
 
+		let dateString = this.state.day + '/' + this.state.month;
+
+		let currentStep = this.state.currentStep;
+		// If the current step is 4, render the final step
+
+		if(currentStep ===4){
+
+			let classifyArray = this.constructClassifyArray();
+			console.log(classifyArray);
+
 		// Create styles
+		const Title = styled.Text`
+			margin: 15px;
+			color: #4b5877;
+			font-size: 18px;
+			font-family: 'Helvetica';
+			text-align: center;
+		`;
+		const Subtitle = styled.Text`
+			margin: 5px;
+			font-size: 15px;
+			font-family: 'Helvetica';
+			text-align: center;
+		`;
 		const styles = StyleSheet.create({
 			page: {
 				flexDirection: 'row',
-				backgroundColor: '#E4E4E4'
+				backgroundColor: '#FFFAFA'
 			},
 			section: {
 				margin: 10,
@@ -180,48 +254,29 @@ class GetStarted extends Component {
 			}
 		});
 
-		let dateString = this.state.day + '/' + this.state.month;
+			// Create Document Component
+			const MyDocument = () => (
+				<Document>
+					<Page size="A4" style={styles.page}>
+						<View style={styles.section}>
+							<Title>Your visit to {this.state.park}</Title>
+							<Subtitle>.....</Subtitle>
+							<Subtitle> Date: {dateString} Park opens at: {this.state.openTime}</Subtitle>
+							<Subtitle> Predicted crowd level is: {this.state.crowdLevel}</Subtitle>
+							<Subtitle>.....</Subtitle>
+							<Text> Your top 5 rides: </Text>
+							<Rides 
+								parkID={this.state.parkID}
+								preferences={classify(classifyArray)}
+								crowdLevel={this.state.crowdlevel}>
+							</Rides>
+						</View>
+					</Page>
+				</Document>
+			);
 
-		// Create Document Component
-		const MyDocument = () => (
-			<Document>
-				<Page size="A4" style={styles.page}>
-					<View style={styles.section}>
-						<Text>{this.state.park}</Text>
-						<Text>{dateString}</Text>
-						<Text>{this.state.openTime}</Text>
-						<Text>{this.state.crowdLevel}</Text>
-					</View>
-					<View style={styles.section}>
-					</View>
-				</Page>
-			</Document>
-		);
-
-		let currentStep = this.state.currentStep;
-		// If the current step is 3, render the final step
-		
-		if(currentStep ===4){
 			return (
 				<>
-					<Rides parkID={this.state.parkID} preferences={classify([0,4,31,18,30,0])}></Rides>
-					<h2>Is this data correct?</h2>
-					<h3>Park:</h3>
-					<h3>{this.state.park}</h3>
-					<h3>Group:</h3>
-					<h3>{this.state.group}</h3>
-					<h3>Group size:</h3>
-					<h3>{this.state.visitorCount}</h3>
-					<h3>Wait time:</h3>
-					<h3>{this.state.waitTimePref}</h3>
-					<h3>Regular:</h3>
-					<h3>{this.state.regular}</h3>
-					<h3>Crowd level:</h3>
-					<h3>{this.state.crowdLevel}</h3> 
-					<h3>Open time:</h3>
-					<h3>{this.state.openTime}</h3> 
-					<h3>Date:</h3> 
-					<h3>{dateString}</h3> 
 					<PDFDownloadLink document={<MyDocument />} fileName="somename.pdf">
 						{({ loading }) => (loading ? 'Loading document...' : 'Download now!')}
 					</PDFDownloadLink>
