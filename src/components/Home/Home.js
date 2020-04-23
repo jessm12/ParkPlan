@@ -105,17 +105,6 @@ class Home extends Component {
 							<div className='info'>Park navigation</div>
 						}
 					</div>
-{/* 					<form onSubmit={this.handleSubmit}>
-            <label htmlFor="string">Enter string to tokenise: </label>
-            <input
-              id="name"
-              type="text"
-              value={this.state.string}
-              onChange={this.handleChange}
-            />
-            <button type="submit">Submit</button>
-          </form>
-          <p>{this.state.tokenise}</p> */}
 				</div>
 			</>
 		);
