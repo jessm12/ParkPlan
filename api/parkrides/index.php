@@ -28,16 +28,35 @@ if (true)
 
 		$conn = OpenCon();
 		
-		$stmt = $conn->prepare('SELECT name, average_wait_times, tags FROM rides WHERE park_id = ?');
+		$stmt = $conn->prepare('SELECT name, very_quiet_wait, moderately_quiet_wait,
+		 moderately_busy_wait, very_busy_wait, tags, info_text FROM rides WHERE park_id = ? AND TAGS <> "interactive"');
 		$stmt->bind_param('i', $parkID);
 		$stmt->execute();
 
-		$stmt->bind_result($name, $averagewaits, $tags);
+		$stmt->bind_result($name, $veryquiet, $moderatelyquiet, $moderatelybusy,
+		$verybusy, $tags, $infotext);
 
 		$rides = array();
 		while ($stmt->fetch()) {
-			$rides[] = array('name' => $name, 'average_waits' => $averagewaits, 'tags' => $tags);
-	  }
+			$rides[] = array('name' => $name, 'very_quiet_wait' => $veryquiet,
+			 'moderately_quiet_wait' => $moderatelyquiet, 'moderately_busy_wait' => $moderatelybusy,
+			 'very_busy_wait' => $verybusy, 'tags' => $tags, 'info_text' => $infotext,);
+		}
+		
+		$stmt = $conn->prepare('SELECT name, very_quiet_wait, moderately_quiet_wait,
+		moderately_busy_wait, very_busy_wait, tags, info_text FROM rides WHERE park_id = ? AND TAGS = "interactive"');
+		$stmt->bind_param('i', $parkID);
+		$stmt->execute();
+
+		$stmt->bind_result($name, $veryquiet, $moderatelyquiet, $moderatelybusy,
+		$verybusy, $tags, $infotext);
+
+		$interactive = array();
+		while ($stmt->fetch()) {
+			$interactive[] = array('name' => $name, 'very_quiet_wait' => $veryquiet,
+				'moderately_quiet_wait' => $moderatelyquiet, 'moderately_busy_wait' => $moderatelybusy,
+				'very_busy_wait' => $verybusy, 'tags' => $tags, 'info_text' => $infotext,);
+		}
 
 		CloseCon($conn);
 
@@ -47,9 +66,10 @@ if (true)
 		$headers = "MIME-Version: 1.0\r\n";
 		$headers.= "Content-type: text/html; charset=UTF-8\r\n";
 
-		echo json_encode(
-			$rides
-		);
+		echo json_encode([
+			'rides' => $rides,
+			'interactive' => $interactive
+		]);
 	}
   else
 	{
