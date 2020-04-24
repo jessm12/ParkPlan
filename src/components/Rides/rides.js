@@ -29,6 +29,8 @@ class Rides extends Component {
 
 	async getGuestRidesFromPreferences(preferences, parkID, crowdLevel) {
 		let data = (await this.getParkRides(parkID)).data;
+
+		// split interactive only attractions from all other rides
 		let rides = data.rides;
 		let interactive = data.interactive;
 
@@ -56,6 +58,8 @@ class Rides extends Component {
 			['spinning', 'interactive']
 		]
 
+		// calculate tag values based on user ride preferences
+		// ride preferences calculated from decision tree(s)
 		for (let i = 0; i < preferences.length; i++) {
 			for (const tag1 of tags[i]) {
 				if (preferences[i] == 1) {
@@ -65,10 +69,13 @@ class Rides extends Component {
 			}
 		}
 
+		// calculate percentage of each tag from its total
 		for (const tag2 in tagTotals){
 			preferenceByTag[tag2]/=tagTotals[tag2];
 		}
 
+		// for all rides at the park selected
+		// calculate the probability that the user would want to ride
 		for (let ride of rides){
 			const rideTags = ride.tags.split(',');
 			let probability = 1;
@@ -79,10 +86,12 @@ class Rides extends Component {
 			ride.probability = probability;
 		}
 
+		// sort the rides by their probability
+		// take the top 5 rides 
 		rides.sort((a, b) => (a.probability < b.probability) ? 1 : -1)
-
 		rides = rides.slice(0,5);
 
+		// include wait time only for the relevant crowd level
 		for (let ride of rides){
 			if (crowdLevel == 'very Quiet') {
 				ride.wait = ride.very_quiet_wait;
