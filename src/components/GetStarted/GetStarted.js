@@ -157,13 +157,13 @@ class GetStarted extends Component {
 			headers: { 'content-type': 'application/json' },
 			data: this.state
 		})
-			.then(result => {
-				this.setState({
-					openTime: result.data.opentime,
-					crowdLevel: result.data.crowdlevel
-				})
+		.then(result => {
+			this.setState({
+				openTime: result.data.opentime,
+				crowdLevel: result.data.crowdlevel
 			})
-			.catch(error => console.log('error' + error));
+		})
+		.catch(error => console.log('error' + error));
 	}
 
 	constructClassifyArray() {

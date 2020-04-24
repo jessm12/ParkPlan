@@ -166,9 +166,9 @@ class Step3 extends Component {
 					<Form className='getStartedForm'>
 						<h5> How much would you like to know about...? </h5>
 						<Row>
-							<Col md="2">
+							<Col md="3">
 							</Col>
-							<Col md="8">
+							<Col md="6">
 								<Likert
 									responses={responses}
 									{...moneyLikertOptions}
@@ -214,7 +214,7 @@ class Step3 extends Component {
 									{...convenienceLikertOptions}
 								/>
 							</Col>
-							<Col md="2">
+							<Col md="3">
 							</Col>
 						</Row>
 					</Form>
