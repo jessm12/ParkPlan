@@ -1,11 +1,28 @@
-div.col-sm-4{
-	padding: 0rem 2rem 4rem 2rem;
-}
-
-.cardsDiv{
-	padding: 0rem 2rem 0rem 2rem;
-}
-
 .title{
 	text-align: center;
+}
+
+.carousel {
+	padding: 4rem;
+}
+
+.carouselDiv {
+	padding-bottom: 100rem;
+	text-align: center;
+	p {
+		margin-bottom: 0;
+	}
+}
+
+.carouselImage {
+	width: 70%;
+}
+
+.carousel-caption {
+	h3 {
+		text-shadow: 1px 1px black;
+	}
+	p {
+		text-shadow: 1px 1px black;
+	}
 }
