@@ -15,7 +15,7 @@ class Step2 extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			group: "",
+			group: "Family",
 			visitorCount: 1,
 			visitorAges: [0,0,0,0,0,0,0,0,0,0],
 			regular: 'Neither agree nor disagree',

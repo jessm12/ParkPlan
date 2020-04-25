@@ -31,7 +31,8 @@ class Step1 extends Component {
 		this.state = {
 			park: "",
 			parkID: 0,
-			date: new Date()
+			date: new Date(),
+			validate: {}
 		};
 
 		this.handleInputChange = this.handleInputChange.bind(this);
@@ -43,6 +44,9 @@ class Step1 extends Component {
     const value = target.value;
 		const name = target.name;
 
+		this.setState({
+			validate: {park: value!=='Please select a park!'} 
+		})
 		var ID = extractID(value);
 
 		var month = this.state.date.getMonth() + 1;
@@ -55,7 +59,8 @@ class Step1 extends Component {
 				this.state.park,
 				this.state.parkID,
 				this.state.date.getDate(),
-				month
+				month,
+				!this.state.validate.park
 			));
 	}
 	
@@ -67,7 +72,8 @@ class Step1 extends Component {
 				this.state.park,
 				this.state.parkID,
 				this.state.date.getDate(),
-				month
+				month,
+				!this.state.validate.park
 			));
 	}
 
@@ -92,7 +98,10 @@ class Step1 extends Component {
 										id="park" 
 										value={this.state.park}
 										onChange={this.handleInputChange}
+										valid={this.state.validate.park}
+										invalid={!this.state.validate.park}
 									>
+										<option>Please select a park!</option>
 										<option>Magic Kingdom Park - Florida, USA</option>
 										<option>Disney's Hollywood Studios - Florida, USA</option>
 										<option>Epcot - Florida, USA</option>
@@ -115,6 +124,7 @@ class Step1 extends Component {
 										parseDate={parseDate}
 										placeholder={`${formatDate(new Date())}`}
 										onDayChange={this.handleChange}
+										value={this.state.date}
 									/>
 								</FormGroup>
 							</Col>

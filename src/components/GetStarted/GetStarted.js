@@ -34,6 +34,7 @@ class GetStarted extends Component {
 			visitorAges: null,
 			preferences: null,
 			userRides: null,
+			disabled: true,
 			currentStep: 1,
 			money: 0,
 			family: 0,
@@ -54,12 +55,13 @@ class GetStarted extends Component {
 		this.handleChange = this.handleChange.bind(this);
 	}
 
-	stepOneDataCallback = (park, parkID, day, month) => {
+	stepOneDataCallback = (park, parkID, day, month, disabled) => {
 		this.setState({
 			park,
 			parkID,
 			day,
-			month
+			month,
+			disabled
 		}, () =>
 		this.getDateParkInfo());
 	}
@@ -181,6 +183,7 @@ class GetStarted extends Component {
 				<Button
 					size="lg" 
 					className="nav-btn-next"
+					disabled={this.state.disabled}
 					type="button" onClick={this._next}>
 					Next
 				</Button>        
