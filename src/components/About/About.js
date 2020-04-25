@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import HomepageImage from '../HomepageImage'
 import '../../App.scss'
-import {classify} from '../tree.js'
+import './About.scss'
 
 class About extends Component {
 	constructor(props) {
@@ -16,10 +16,27 @@ class About extends Component {
 			<>
 				<div className='mainDiv'>
 					<HomepageImage className='homeImg' />
-					<p className='title'>
-						About
+				</div>
+				<div className='infoMain'>
+					<h1 className='info'>About</h1>
+					<p className='info'>
+						ParkPlan is a web application to help you streamline the
+						planning required before your theme park visits. It gives 
+						intelligent ride suggestions, calculated from your
+						demographic data with machine learning (decision trees) 
+						technologies. As well as this you will be able to filter 
+						reviews for the park you wish to visit, reducing the time 
+						required trawling through them on the web. This info along
+						with helpful details - park opening time, crowd levels and 
+						predicted queue times your visit date are all converted to 
+						a downloadable PDF for viewing and printing however you wish!
 					</p>
-					<h1>{classify([0,4,31,18,30,0])}</h1>
+					<h5 className='info'>Happy planning!</h5>
+					<h3 className='info'>Acknowledgements</h3>
+					<p className='info'>
+						Many thanks to Zachary Bull creator of https://queue-times.com/
+						for kindly providing data to support this project. 
+					</p>
 				</div>
 			</>
 		);
