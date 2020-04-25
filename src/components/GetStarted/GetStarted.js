@@ -5,7 +5,6 @@ import FormStep1 from '../FormStep1';
 import FormStep2 from '../FormStep2';
 import FormStep3 from '../FormStep3';
 import {classify} from '../tree.js'
-import Rides from '../Rides';
 import { Col, Row, Button } from 'reactstrap';
 import HomepageImage from '../HomepageImage'
 import { PDFDownloadLink, Document, Page, Text, View, StyleSheet  } from '@react-pdf/renderer'
@@ -13,6 +12,8 @@ import axios from 'axios';
 import styled from '@react-pdf/styled-components';
 
 const API_PATH = 'http://cojlm.sci-project.lboro.ac.uk/api/parkdateinfo/index.php';
+const API_PATH2 = 'http://cojlm.sci-project.lboro.ac.uk/api/parkreviews/index.php';
+const API_PATH3 = 'http://cojlm.sci-project.lboro.ac.uk/api/parkrides/index.php';
 
 class GetStarted extends Component {
 	constructor(props) {
@@ -43,7 +44,9 @@ class GetStarted extends Component {
 			accomodation: 0,
 			theme: 0,
 			rides: 0,
-			convenience: 0
+			convenience: 0,
+			reviewsPdf: null,
+			ridesPdf: null
 		};
     this._next = this._next.bind(this);
     this._prev = this._prev.bind(this);
@@ -96,13 +99,48 @@ class GetStarted extends Component {
 		})    
 	}
 
+	getParkReviews(parkID) {
+	  axios({
+			method: 'post',
+			url: `${API_PATH2}`,
+			headers: { 'content-type': 'application/json' },
+			data: parkID,
+		})		
+		.then(result => {
+			this.setState({
+				reviewsPdf: result.data.reviews.slice(0, 5) // first 5 reviews for testing
+			})
+		})
+		.catch(error => console.log('error' + error));
+	}
+
+	getParkRides(parkID) {
+		axios({
+			method: 'post',
+			url: `${API_PATH3}`,
+			headers: { 'content-type': 'application/json' },
+			data: parkID,
+		})
+		.then(result => {
+			this.setState({
+				ridesPdf: result.data.rides.slice(0, 5) // first 5 rides for testing
+			})
+		})
+		.catch(error => console.log('error' + error));
+	}
+
 	_next() {
     let currentStep = this.state.currentStep
     // If the current step is 1, 2 or 3, then add one on "next" button click
     currentStep = currentStep >= 3? 4: currentStep + 1
     this.setState({
       currentStep: currentStep
-    })
+		})
+
+		if (currentStep == 4) {
+			this.getParkReviews(this.state.parkID);
+			this.getParkRides(this.state.parkID);
+		}
 	}
 	
 	_prev() {
@@ -196,7 +234,6 @@ class GetStarted extends Component {
 		classifyArray.push(agesMin(ages));
 
 		// get wait time preference
-		console.log(this.state.waitTimePref);
 		let	waitTime = this.state.waitTimePref.replace(/\D/g,'');
 		classifyArray.push(parseInt(waitTime));
 
@@ -217,47 +254,55 @@ class GetStarted extends Component {
 	}
 
 	get finalStep(){
-
 		let dateString = this.state.day + '/' + this.state.month;
-
 		let currentStep = this.state.currentStep;
+
 		// If the current step is 4, render the final step
-
-		if(currentStep ===4){
-
+		if(currentStep === 4 && this.state.ridesPdf && this.state.reviewsPdf) {
 			let classifyArray = this.constructClassifyArray();
-			console.log(classifyArray);
 
-		// Create styles
-		const Title = styled.Text`
-			margin: 15px;
-			color: #4b5877;
-			font-size: 18px;
-			font-family: 'Helvetica';
-			text-align: center;
-		`;
-		const Subtitle = styled.Text`
-			margin: 5px;
-			font-size: 15px;
-			font-family: 'Helvetica';
-			text-align: center;
-		`;
-		const styles = StyleSheet.create({
-			page: {
-				flexDirection: 'row',
-				backgroundColor: '#FFFAFA'
-			},
-			section: {
-				margin: 10,
-				padding: 10,
-				flexGrow: 1
-			}
-		});
+			// Create styles
+			const Title = styled.Text`
+				margin: 15px;
+				color: #4b5877;
+				font-size: 18px;
+				font-family: 'Helvetica';
+				text-align: center;
+			`;
+			const Subtitle = styled.Text`
+				margin: 5px;
+				font-size: 15px;
+				font-family: 'Helvetica';
+				text-align: center;
+			`;
+			const styles = StyleSheet.create({
+				page: {
+					flexDirection: 'row',
+					backgroundColor: '#FFFAFA'
+				},
+				section: {
+					margin: 10,
+					padding: 10,
+					flexGrow: 1
+				}
+			});
 
-			// Create Document Component
+			// Create styles
+			const Heading = styled.Text`
+				margin: 8px;
+				margin-top: 16px;
+				font-size: 18px;
+				font-family: 'Helvetica';
+			`;
+			const Description = styled.Text`
+				margin: 4px;
+				font-size: 12px;
+				font-family: 'Helvetica';
+			`;
+
 			const MyDocument = () => (
 				<Document>
-					<Page size="A4" style={styles.page}>
+					<Page size="A4" style={styles.page} wrap>
 						<View style={styles.section}>
 							<Title>Your visit to {this.state.park}</Title>
 							<Subtitle>.....</Subtitle>
@@ -265,11 +310,25 @@ class GetStarted extends Component {
 							<Subtitle> Predicted crowd level is: {this.state.crowdLevel}</Subtitle>
 							<Subtitle>.....</Subtitle>
 							<Text> Your top 5 rides: </Text>
-							<Rides 
-								parkID={this.state.parkID}
-								preferences={classify(classifyArray)}
-								crowdLevel={this.state.crowdlevel}>
-							</Rides>
+							{
+								this.state.ridesPdf && (
+									this.state.ridesPdf.map((ride, index) => 
+										<>
+											<Heading>{ride.name}</Heading>
+											<Description>Predicted wait time: {ride.wait} minutes</Description>
+											<Description>{ride.info_text}</Description>
+										</>)
+								) || <Heading>Rides failed to render.</Heading>
+							}
+							{
+								this.state.reviewsPdf && (
+									this.state.reviewsPdf.map((review, index) =>
+										<>
+											<Heading>{review.title}</Heading>
+											<Description>{review.text}</Description>
+										</>)
+								) || <Heading>Reviews failed to render.</Heading>
+							}
 						</View>
 					</Page>
 				</Document>
@@ -277,11 +336,11 @@ class GetStarted extends Component {
 
 			return (
 				<>
-					<PDFDownloadLink document={<MyDocument />} fileName="somename.pdf">
-						{({ loading }) => (loading ? 'Loading document...' : 'Download now!')}
+					<PDFDownloadLink document={<MyDocument/>} fileName="somename.pdf">
+						{({ blob, url, loading, error }) => (loading ? 'Loading document...' : 'Download now!')}
 					</PDFDownloadLink>
 				</>   
-			)
+			);
 		}
 		return null;
 	}
