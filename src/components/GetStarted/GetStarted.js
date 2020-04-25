@@ -5,6 +5,7 @@ import FormStep1 from '../FormStep1';
 import FormStep2 from '../FormStep2';
 import FormStep3 from '../FormStep3';
 import {classify} from '../tree.js'
+import {getPreferredRides} from '../heuristics.js'
 import { Col, Row, Button } from 'reactstrap';
 import HomepageImage from '../HomepageImage'
 import { PDFDownloadLink, Document, Page, Text, View, StyleSheet  } from '@react-pdf/renderer'
@@ -45,8 +46,8 @@ class GetStarted extends Component {
 			theme: 0,
 			rides: 0,
 			convenience: 0,
-			reviewsPdf: null,
-			ridesPdf: null
+			parkReviews: null,
+			parkRides: null
 		};
     this._next = this._next.bind(this);
     this._prev = this._prev.bind(this);
@@ -108,7 +109,7 @@ class GetStarted extends Component {
 		})		
 		.then(result => {
 			this.setState({
-				reviewsPdf: result.data.reviews.slice(0, 5) // first 5 reviews for testing
+				parkReviews: result.data.reviews
 			})
 		})
 		.catch(error => console.log('error' + error));
@@ -123,7 +124,7 @@ class GetStarted extends Component {
 		})
 		.then(result => {
 			this.setState({
-				ridesPdf: result.data.rides.slice(0, 5) // first 5 rides for testing
+				parkRides: result.data.rides
 			})
 		})
 		.catch(error => console.log('error' + error));
@@ -258,8 +259,10 @@ class GetStarted extends Component {
 		let currentStep = this.state.currentStep;
 
 		// If the current step is 4, render the final step
-		if(currentStep === 4 && this.state.ridesPdf && this.state.reviewsPdf) {
-			let classifyArray = this.constructClassifyArray();
+		if(currentStep === 4 && this.state.parkRides && this.state.parkReviews) {
+			let features = this.constructClassifyArray();
+
+			let rides = getPreferredRides(classify(features), this.state.crowdlevel, this.state.parkRides);
 
 			// Create styles
 			const Title = styled.Text`
@@ -311,8 +314,8 @@ class GetStarted extends Component {
 							<Subtitle>.....</Subtitle>
 							<Text> Your top 5 rides: </Text>
 							{
-								this.state.ridesPdf && (
-									this.state.ridesPdf.map((ride, index) => 
+								rides && (
+									rides.map((ride, index) => 
 										<>
 											<Heading>{ride.name}</Heading>
 											<Description>Predicted wait time: {ride.wait} minutes</Description>
@@ -321,8 +324,8 @@ class GetStarted extends Component {
 								) || <Heading>Rides failed to render.</Heading>
 							}
 							{
-								this.state.reviewsPdf && (
-									this.state.reviewsPdf.map((review, index) =>
+								this.state.parkReviews && (
+									this.state.parkReviews.map((review, index) =>
 										<>
 											<Heading>{review.title}</Heading>
 											<Description>{review.text}</Description>
