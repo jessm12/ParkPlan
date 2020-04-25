@@ -15,14 +15,17 @@ class Step2 extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			group: "Family",
+			group: "",
 			visitorCount: 1,
 			visitorAges: [0,0,0,0,0,0,0,0,0,0],
-			regular: 'Neither agree nor disagree',
-			waitTimePref: 30
+			regular: '',
+			waitTimePref: '',
+			validateGroup: null,
+			validateRegular: null,
+			validateTimePref: null
 		};
 		this.handleChange = this.handleChange.bind(this);
-		this.handleInputChange = this.handleChange.bind(this);
+		this.handleInputChange = this.handleInputChange.bind(this);
 		this.handleChangeAge = this.handleChangeAge.bind(this);
 	}
 
@@ -42,6 +45,25 @@ class Step2 extends Component {
     const target = event.target;
     const value = target.value;
 		const name = target.name;
+		console.log(name);
+
+		if (name == 'group') {
+			this.setState({
+				validateGroup: value!=='Select group type'
+			})
+		}
+
+		if (name == 'regular') {
+			this.setState({
+				validateRegular: value!=='Select a response'
+			})
+		}
+
+		if (name == 'waitTimePref') {
+			this.setState({
+				validateTimePref: value!=='Select a response'
+			})
+		}
 
     this.setState({
       [name]: value
@@ -91,7 +113,10 @@ class Step2 extends Component {
 										id="group" 
 										value={this.state.group}
 										onChange={this.handleInputChange}
+										valid={this.state.validateGroup}
+										invalid={!this.state.validateGroup}
 									>
+										<option>Select group type</option>
 										<option>Family</option>
 										<option>Friends</option>
 										<option>Partner</option>
@@ -151,7 +176,10 @@ class Step2 extends Component {
 										id="regular" 
 										value={this.state.regular}
 										onChange={this.handleInputChange}
+										valid={this.state.validateRegular}
+										invalid={!this.state.validateRegular}
 									>
+										<option>Select a response</option>
 										<option>Strongly agree</option>
 										<option>Agree</option>
 										<option>Neither agree nor disagree</option>
@@ -175,7 +203,10 @@ class Step2 extends Component {
 										id="waitTimePref" 
 										value={this.state.waitTimePref}
 										onChange={this.handleInputChange}
+										valid={this.state.validateTimePref}
+										invalid={!this.state.validateTimePref}
 									>
+										<option>Select a response</option>
 										<option>30 minutes</option>
 										<option>60 minutes</option>
 										<option>90 minutes</option>

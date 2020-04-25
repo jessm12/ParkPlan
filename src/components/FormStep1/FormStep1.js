@@ -45,7 +45,7 @@ class Step1 extends Component {
 		const name = target.name;
 
 		this.setState({
-			validate: {park: value!=='Please select a park!'} 
+			validate: {park: value!=='Select a park'} 
 		})
 		var ID = extractID(value);
 
@@ -101,7 +101,7 @@ class Step1 extends Component {
 										valid={this.state.validate.park}
 										invalid={!this.state.validate.park}
 									>
-										<option>Please select a park!</option>
+										<option>Select a park</option>
 										<option>Magic Kingdom Park - Florida, USA</option>
 										<option>Disney's Hollywood Studios - Florida, USA</option>
 										<option>Epcot - Florida, USA</option>
