@@ -81,3 +81,31 @@ export function getPreferredRides(ridePreferences, crowdLevel, rides) {
 
 	return rides;
 }
+
+export function getPreferredReviews(money, family, time, food,
+	shows, comparison, seasonal, accommodation, theme, rides,
+	convenience, reviews) {
+
+	let tagPreferences = {'Money': money, 'Family': family, 
+	'Time': time, 'Food': food, 'Shows': shows, 'Comparison': comparison,
+	'Seasonal': seasonal,	'Accommodation': accommodation, 'Theme': theme,
+	'Rides': rides, 'Convenience': convenience}
+
+	// for all reviews for the park selected
+	// calculate the tag match for each review
+	for (let review of reviews){
+		const reviewTags = review.tags.split(',');
+		let preference = 0;
+		for (const tag of reviewTags){
+			preference += tagPreferences[tag]
+		}
+		review.preference = preference/reviewTags.length;
+	}
+
+	// sort the reviews by their preference
+	// take the top 5 reviews 
+	reviews.sort((a, b) => (a.preference < b.preference) ? 1 : -1)
+	reviews = reviews.slice(0,5);
+
+	return reviews;
+}

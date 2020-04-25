@@ -5,7 +5,7 @@ import FormStep1 from '../FormStep1';
 import FormStep2 from '../FormStep2';
 import FormStep3 from '../FormStep3';
 import {classify} from '../tree.js'
-import {getPreferredRides} from '../heuristics.js'
+import {getPreferredRides, getPreferredReviews} from '../heuristics.js'
 import { Col, Row, Button } from 'reactstrap';
 import HomepageImage from '../HomepageImage'
 import { PDFDownloadLink, Document, Page, Text, View, StyleSheet  } from '@react-pdf/renderer'
@@ -266,6 +266,10 @@ class GetStarted extends Component {
 			let features = this.constructClassifyArray();
 
 			let rides = getPreferredRides(classify(features), this.state.crowdlevel, this.state.parkRides);
+			let reviews = getPreferredReviews(this.state.money, this.state.family, this.state.time,
+				this.state.food, this.state.shows, this.state.comparison, this.state.seasonal,
+				this.state.accomodation, this.state.theme, this.state.rides, this.state.convenience,
+				this.state.parkReviews)
 
 			// Create styles
 			const Title = styled.Text`
@@ -327,8 +331,8 @@ class GetStarted extends Component {
 								) || <Heading>Rides failed to render.</Heading>
 							}
 							{
-								this.state.parkReviews && (
-									this.state.parkReviews.map((review, index) =>
+								reviews && (
+									reviews.map((review, index) =>
 										<>
 											<Heading>{review.title}</Heading>
 											<Description>{review.text}</Description>
@@ -345,6 +349,19 @@ class GetStarted extends Component {
 					<PDFDownloadLink document={<MyDocument/>} fileName="somename.pdf">
 						{({ blob, url, loading, error }) => (loading ? 'Loading document...' : 'Download now!')}
 					</PDFDownloadLink>
+					<p>
+						{this.state.money}
+						{this.state.family}
+						{this.state.time}
+						{this.state.food}
+						{this.state.shows}
+						{this.state.comparison}
+						{this.state.seasonal}
+						{this.state.accomodation}
+						{this.state.theme}
+						{this.state.rides}
+						{this.state.convenience}
+					</p>
 				</>   
 			);
 		}

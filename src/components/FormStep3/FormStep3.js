@@ -45,9 +45,9 @@ class Step3 extends Component {
 		}
 
 		const responses = [
-			{ value: 1, text: "None" },
-			{ value: 2, text: "Some" },
-			{ value: 3, text: "Lots" },
+			{ value: 0, text: "None" },
+			{ value: 0.5, text: "Some" },
+			{ value: 1, text: "Lots" },
 		]
 
 		const moneyLikertOptions = {
@@ -55,8 +55,9 @@ class Step3 extends Component {
 			picked: val => {
 				this.setState({
 					money: val
-				});
-				this.handleCallback()
+				}, () =>
+					this.handleCallback()
+				)
 			}
 		};
 
@@ -65,8 +66,9 @@ class Step3 extends Component {
 			picked: val => {
 				this.setState({
 					family: val
-				});
-				this.handleCallback()
+				}, () =>
+					this.handleCallback()
+				)
 			}
 		};
 
@@ -75,8 +77,9 @@ class Step3 extends Component {
 			picked: val => {
 				this.setState({
 					time: val
-				});
-				this.handleCallback()
+				}, () =>
+					this.handleCallback()
+			 	)
 			}
 		};
 		
@@ -85,8 +88,9 @@ class Step3 extends Component {
 			picked: val => {
 				this.setState({
 					food: val
-				});
-				this.handleCallback()
+				}, () =>
+					this.handleCallback()
+			 	)
 			}
 		};
 
@@ -95,8 +99,9 @@ class Step3 extends Component {
 			picked: val => {
 				this.setState({
 					shows: val
-				});
-				this.handleCallback()
+				}, () =>
+					this.handleCallback()
+			 	)
 			}
 		};
 
@@ -105,8 +110,9 @@ class Step3 extends Component {
 			picked: val => {
 				this.setState({
 					comparison: val
-				});
-				this.handleCallback()
+				}, () =>
+					this.handleCallback()
+			 	)
 			}
 		};
 
@@ -115,8 +121,9 @@ class Step3 extends Component {
 			picked: val => {
 				this.setState({
 					seasonal: val
-				});
-				this.handleCallback()
+				}, () =>
+					this.handleCallback()
+			 	)
 			}
 		};
 
@@ -125,8 +132,9 @@ class Step3 extends Component {
 			picked: val => {
 				this.setState({
 					accomodation: val
-				});
-				this.handleCallback()
+				}, () =>
+					this.handleCallback()
+			 	)
 			}
 		};
 
@@ -135,8 +143,9 @@ class Step3 extends Component {
 			picked: val => {
 				this.setState({
 					theme: val
-				});
-				this.handleCallback()
+				}, () =>
+					this.handleCallback()
+			 	)
 			}
 		};
 
@@ -145,8 +154,9 @@ class Step3 extends Component {
 			picked: val => {
 				this.setState({
 					rides: val
-				});
-				this.handleCallback()
+				}, () =>
+					this.handleCallback()
+			 	)
 			}
 		};
 
@@ -155,8 +165,9 @@ class Step3 extends Component {
 			picked: val => {
 				this.setState({
 					convenience: val
-				});
-				this.handleCallback()
+				}, () =>
+					this.handleCallback()
+			 	)
 			}
 		};
 
