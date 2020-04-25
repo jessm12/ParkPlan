@@ -275,13 +275,13 @@ class GetStarted extends Component {
 			const Title = styled.Text`
 				margin: 15px;
 				color: #4b5877;
-				font-size: 18px;
+				font-size: 22px;
 				font-family: 'Helvetica';
 				text-align: center;
 			`;
 			const Subtitle = styled.Text`
 				margin: 5px;
-				font-size: 15px;
+				font-size: 18px;
 				font-family: 'Helvetica';
 				text-align: center;
 			`;
@@ -312,7 +312,7 @@ class GetStarted extends Component {
 
 			const MyDocument = () => (
 				<Document>
-					<Page size="A4" style={styles.page} wrap>
+					<Page size="A4" style={styles.page}>
 						<View style={styles.section}>
 							<Title>Your visit to {this.state.park}</Title>
 							<Subtitle>.....</Subtitle>
@@ -330,6 +330,11 @@ class GetStarted extends Component {
 										</>)
 								) || <Heading>Rides failed to render.</Heading>
 							}
+						</View>
+					</Page>
+					<Page size="A4" style={styles.page}>
+						<View style={styles.section}>
+							<Text> Your top 5 reviews: </Text>
 							{
 								reviews && (
 									reviews.map((review, index) =>
@@ -349,19 +354,6 @@ class GetStarted extends Component {
 					<PDFDownloadLink document={<MyDocument/>} fileName="somename.pdf">
 						{({ blob, url, loading, error }) => (loading ? 'Loading document...' : 'Download now!')}
 					</PDFDownloadLink>
-					<p>
-						{this.state.money}
-						{this.state.family}
-						{this.state.time}
-						{this.state.food}
-						{this.state.shows}
-						{this.state.comparison}
-						{this.state.seasonal}
-						{this.state.accomodation}
-						{this.state.theme}
-						{this.state.rides}
-						{this.state.convenience}
-					</p>
 				</>   
 			);
 		}
