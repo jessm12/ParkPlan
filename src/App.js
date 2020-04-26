@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Navigation from './components/Navigation';
 import Home from './components/Home'
-import GetStarted from './components/GetStarted';
+import Plan from './components/Plan';
 import About from './components/About';
 import TheParks from './components/TheParks';
 import { render } from 'react-dom';
@@ -22,7 +22,7 @@ class App extends Component {
           <Navigation />
           <Switch>
             <Route path="/" component={Home} exact />
-            <Route path="/GetStarted" component={GetStarted} />
+            <Route path="/Plan" component={Plan} />
             <Route path="/About" component={About} />
             <Route path="/TheParks" component={TheParks} />
           </Switch>

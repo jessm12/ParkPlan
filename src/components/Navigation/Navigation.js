@@ -11,9 +11,9 @@ const Navigation = () => {
 					Home
         </Button>
 			</NavLink>
-			<NavLink to="/GetStarted">
+			<NavLink to="/Plan">
 				<Button className='navButton' color='secondary'>
-					Get Started
+					Plan
         </Button>
 			</NavLink>
 			<NavLink to="/TheParks">

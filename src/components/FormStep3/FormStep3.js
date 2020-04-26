@@ -174,7 +174,7 @@ class Step3 extends Component {
 		return(
 			<>
 				<div>
-					<Form className='getStartedForm'>
+					<Form className='PlanForm'>
 						<h5> How much would you like to know about...? </h5>
 						<Row>
 							<Col md="3">

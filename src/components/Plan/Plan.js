@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import '../../App.scss';
-import './GetStarted.scss';
+import './Plan.scss';
 import FormStep1 from '../FormStep1';
 import FormStep2 from '../FormStep2';
 import FormStep3 from '../FormStep3';
@@ -16,7 +16,7 @@ const API_PATH = 'http://cojlm.sci-project.lboro.ac.uk/api/parkdateinfo/index.ph
 const API_PATH2 = 'http://cojlm.sci-project.lboro.ac.uk/api/parkreviews/index.php';
 const API_PATH3 = 'http://cojlm.sci-project.lboro.ac.uk/api/parkrides/index.php';
 
-class GetStarted extends Component {
+class Plan extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -34,7 +34,8 @@ class GetStarted extends Component {
 			visitorAges: null,
 			preferences: null,
 			userRides: null,
-			disabled: true,
+			disabled1: true,
+			disabled2: true,
 			currentStep: 1,
 			money: 0,
 			family: 0,
@@ -55,25 +56,26 @@ class GetStarted extends Component {
 		this.handleChange = this.handleChange.bind(this);
 	}
 
-	stepOneDataCallback = (park, parkID, day, month, disabled) => {
+	stepOneDataCallback = (park, parkID, day, month, disabled1) => {
 		this.setState({
 			park,
 			parkID,
 			day,
 			month,
-			disabled
+			disabled1
 		}, () =>
 		this.getDateParkInfo());
 	}
 
 	stepTwoDataCallback = (group, visitorCount, visitorAges, 
-		regular, waitTimePref) => {
+		regular, waitTimePref, disabled2) => {
 		this.setState({
 			group,
 			visitorCount,
 			visitorAges,
 			regular,
-			waitTimePref
+			waitTimePref,
+			disabled2
 		})
 	}
 
@@ -178,12 +180,31 @@ class GetStarted extends Component {
 	get nextButton(){
 		let currentStep = this.state.currentStep;
 		// If the current step is not 4, then render the "next" button
-		if(currentStep <4){
+		if(currentStep == 1){
 			return (
 				<Button
 					size="lg" 
 					className="nav-btn-next"
-					disabled={this.state.disabled}
+					disabled={this.state.disabled1}
+					type="button" onClick={this._next}>
+					Next
+				</Button>        
+			)
+		} else if(currentStep == 2){
+			return (
+				<Button
+					size="lg" 
+					className="nav-btn-next"
+					disabled={this.state.disabled2}
+					type="button" onClick={this._next}>
+					Next
+				</Button>        
+			)
+		} else if(currentStep == 3){
+			return (
+				<Button
+					size="lg" 
+					className="nav-btn-next"
 					type="button" onClick={this._next}>
 					Next
 				</Button>        
@@ -404,4 +425,4 @@ class GetStarted extends Component {
 	}
 }
 
-export default GetStarted;
+export default Plan;

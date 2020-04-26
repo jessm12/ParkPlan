@@ -84,7 +84,7 @@ class Step1 extends Component {
 		return(
 			<>
 				<div>
-					<Form className='getStartedForm'>
+					<Form className='PlanForm'>
 						<h5> Visit Details </h5>
 						<Row>
 							<Col md={3}>
