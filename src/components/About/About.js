@@ -35,7 +35,7 @@ class About extends Component {
 					<h3 className='info'>Acknowledgements</h3>
 					<p className='info'>
 						Many thanks to Zachary Bull creator of https://queue-times.com/
-						for kindly providing data to support this project. 
+						for kindly providing some of the data to support this project. 
 					</p>
 				</div>
 			</>
