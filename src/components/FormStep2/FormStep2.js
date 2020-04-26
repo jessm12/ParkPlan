@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../../App.scss';
 import './FormStep2.scss';
-import { Col, Row, Form, FormGroup, Label, Input } from 'reactstrap';
+import { Col, Row, Form, FormGroup, Label, Input, FormFeedback } from 'reactstrap';
 
 function Repeat(props) {
 	let items = [];
@@ -16,54 +16,86 @@ class Step2 extends Component {
 		super(props);
 		this.state = {
 			group: "",
-			visitorCount: 1,
+			visitorCount: null,
 			visitorAges: [0,0,0,0,0,0,0,0,0,0],
 			regular: '',
 			waitTimePref: '',
-			validateGroup: null,
-			validateRegular: null,
-			validateTimePref: null
+			validateGroup: '',
+			validateGroupSize: '',
+			validateRegular: '',
+			validateTimePref: '',
 		};
-		this.handleChange = this.handleChange.bind(this);
+
 		this.handleInputChange = this.handleInputChange.bind(this);
 		this.handleChangeAge = this.handleChangeAge.bind(this);
-	}
-
-	handleChange(event) {
-		var name = event.target.name
-		this.setState({[name]: event.target.value}, () =>
-		this.props.mainFormCallback(
-			this.state.group,
-			this.state.visitorCount,
-			this.state.visitorAges,
-			this.state.regular,
-			this.state.waitTimePref
-		));
 	}
 
 	handleInputChange(event) {
     const target = event.target;
     const value = target.value;
 		const name = target.name;
+
 		console.log(name);
+		console.log(value);
 
+		let valGroup = this.state.validateGroup;
+		let valReg = this.state.validateRegular;
+		let valWait = this.state.validateTimePref;
+		let valCount = this.state.validateGroupSize;
+
+		// input validation
 		if (name == 'group') {
+			if (value == 'Select group type') {
+				valGroup = 'fail'
+				this.setState({
+					validateGroup: valGroup
+			})} else {
+				valGroup = 'success'
+				this.setState({
+					validateGroup: valGroup
+			})}
+		} else if (name == 'regular') {
+			if (value == 'Select a response') {
+				valReg = 'fail'
+				this.setState({
+					validateRegular: valReg
+			})} else {
+				valReg = 'success'
+				this.setState({
+					validateRegular: valReg
+			})}
+		} else if (name == 'waitTimePref') {
+			if (value == 'Select a response') {
+				valWait = 'fail'
+				this.setState({
+					validateTimePref: valWait
+			})} else {
+				valWait = 'success'
+				this.setState({
+					validateTimePref: valWait
+			})}
+		} else if (name == 'visitorCount') {
+			if( value > 10 || value < 1 ) {
+				valCount = 'fail' 
+			} else {
+				valCount = 'success'
+			}
 			this.setState({
-				validateGroup: value!=='Select group type'
+				validateGroupSize: valCount
 			})
 		}
 
-		if (name == 'regular') {
-			this.setState({
-				validateRegular: value!=='Select a response'
-			})
+		let disabled = '';
+		// disable next button if any validation not met
+		if (!(valGroup === 'success') || !(valReg === 'success') || 
+			!(valWait === 'success') || !(valCount === 'success')) 
+		{
+		  disabled = true;  
+		} else {
+			disabled = false;
 		}
-
-		if (name == 'waitTimePref') {
-			this.setState({
-				validateTimePref: value!=='Select a response'
-			})
-		}
+		
+		console.log(disabled);
 
     this.setState({
       [name]: value
@@ -73,11 +105,21 @@ class Step2 extends Component {
 				this.state.visitorCount,
 				this.state.visitorAges,
 				this.state.regular,
-				this.state.waitTimePref
-			));
+				this.state.waitTimePref,
+				disabled
+		));
 	}
 	
 	handleChangeAge(event) {
+		let disabled = '';
+		// disable next button if any validation not met
+		if (!(this.state.validateGroup === 'success') || !(this.state.validateRegular === 'success') || 
+			!(this.state.validateTimePref === 'success') || !(this.state.validateGroupSize === 'success')) 
+		{
+		  disabled = true;  
+		} else {
+			disabled = false;
+		}
 		var index = event.target.name
 		var visitorAge = event.target.value;
 		let visitorAges = [...this.state.visitorAges];
@@ -88,7 +130,8 @@ class Step2 extends Component {
 			this.state.visitorCount,
 			this.state.visitorAges,
 			this.state.regular,
-			this.state.waitTimePref
+			this.state.waitTimePref,
+			disabled
 		));
   }
 
@@ -99,7 +142,7 @@ class Step2 extends Component {
 		return(
 			<>
 				<div>
-					<Form className='getStartedForm'>
+					<Form className='PlanForm'>
 						<h5> Visitor Details </h5>
 						<Row>
 							<Col md={3}>
@@ -113,8 +156,8 @@ class Step2 extends Component {
 										id="group" 
 										value={this.state.group}
 										onChange={this.handleInputChange}
-										valid={this.state.validateGroup}
-										invalid={!this.state.validateGroup}
+										valid={this.state.validateGroup === 'success'}
+										invalid={this.state.validateGroup === 'fail'}
 									>
 										<option>Select group type</option>
 										<option>Family</option>
@@ -133,8 +176,12 @@ class Step2 extends Component {
 										name="visitorCount"
 										id="visitorCount"
 										placeholder="No. of visitors" 
-										onChange={this.handleChange}
+										onChange={this.handleInputChange}
+										valid={this.state.validateGroupSize === 'success'}
+										invalid={this.state.validateGroupSize === 'fail'}
 									/>
+									<FormFeedback>Group size must be between 1 and 10</FormFeedback>
+									<FormFeedback valid>Please ensure you enter all ages for your group!</FormFeedback>
 								</FormGroup>
 							</Col>
 							<Col md={3}>
@@ -176,8 +223,8 @@ class Step2 extends Component {
 										id="regular" 
 										value={this.state.regular}
 										onChange={this.handleInputChange}
-										valid={this.state.validateRegular}
-										invalid={!this.state.validateRegular}
+										valid={this.state.validateRegular === 'success'}
+										invalid={this.state.validateRegular === 'fail'}
 									>
 										<option>Select a response</option>
 										<option>Strongly agree</option>
@@ -203,16 +250,14 @@ class Step2 extends Component {
 										id="waitTimePref" 
 										value={this.state.waitTimePref}
 										onChange={this.handleInputChange}
-										valid={this.state.validateTimePref}
-										invalid={!this.state.validateTimePref}
+										valid={this.state.validateTimePref === 'success'}
+										invalid={this.state.validateTimePref === 'fail'}
 									>
 										<option>Select a response</option>
 										<option>30 minutes</option>
 										<option>60 minutes</option>
 										<option>90 minutes</option>
 										<option>120 minutes</option>
-										<option>150 minutes</option>
-										<option>150+ minutes</option>
 									</Input>
 								</FormGroup>
 							</Col>
