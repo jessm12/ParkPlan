@@ -175,7 +175,8 @@ class Step3 extends Component {
 			<>
 				<div>
 					<Form className='PlanForm'>
-						<h5> How much would you like to know about...? </h5>
+						<h4> How much would you like to know about...? </h4>
+						<h6> Ensure you click your response to each question. </h6>
 						<Row>
 							<Col md="3">
 							</Col>

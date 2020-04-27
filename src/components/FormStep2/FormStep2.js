@@ -143,7 +143,7 @@ class Step2 extends Component {
 			<>
 				<div>
 					<Form className='PlanForm'>
-						<h5> Visitor Details </h5>
+						<h4> Visitor Details </h4>
 						<Row>
 							<Col md={3}>
 							</Col>
