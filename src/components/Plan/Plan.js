@@ -5,6 +5,7 @@ import FormStep1 from '../FormStep1';
 import FormStep2 from '../FormStep2';
 import FormStep3 from '../FormStep3';
 import {classify} from '../tree.js'
+import { Prompt } from 'react-router-dom'
 import {getPreferredRides, getPreferredReviews} from '../heuristics.js'
 import { Col, Row, Button } from 'reactstrap';
 import HomepageImage from '../HomepageImage'
@@ -386,6 +387,10 @@ class Plan extends Component {
 	render() {
 		return (
 			<>
+				<Prompt
+					when={this.state.currentStep < 4}
+					message='Are you sure you want to leave, your plan will be cancelled!'
+        />
 				<div className='mainDiv'>
 				<HomepageImage className='homeImg' />
 				<h5 className='formHeading'> Plan your dream park trip now!</h5>
