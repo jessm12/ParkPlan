@@ -32,7 +32,7 @@ class Step1 extends Component {
 			park: "",
 			parkID: 0,
 			date: new Date(),
-			validate: {}
+			validatePark: ''
 		};
 
 		this.handleInputChange = this.handleInputChange.bind(this);
@@ -44,9 +44,26 @@ class Step1 extends Component {
     const value = target.value;
 		const name = target.name;
 
-		this.setState({
-			validate: {park: value!=='Select a park'} 
-		})
+		let valPark = this.state.validatePark;
+		if (value == 'Select a park') {
+			valPark = 'fail'
+			this.setState({
+				validatePark: valPark
+		})} else {
+			valPark= 'success'
+			this.setState({
+				validatePark: valPark
+		})}
+
+		let disabled = '';
+		// disable next button if any validation not met
+		if (!(valPark === 'success'))
+		{
+		  disabled = true;  
+		} else {
+			disabled = false;
+		}
+
 		var ID = extractID(value);
 
 		var month = this.state.date.getMonth() + 1;
@@ -60,11 +77,20 @@ class Step1 extends Component {
 				this.state.parkID,
 				this.state.date.getDate(),
 				month,
-				!this.state.validate.park
+				disabled
 			));
 	}
 	
 	handleChange(date){
+		let disabled = '';
+		// disable next button if any validation not met
+		if (!(this.state.validatePark === 'success'))
+		{
+		  disabled = true;  
+		} else {
+			disabled = false;
+		}
+		
 		var month = this.state.date.getMonth() + 1;
 
 		this.setState({date}, () =>
@@ -73,7 +99,7 @@ class Step1 extends Component {
 				this.state.parkID,
 				this.state.date.getDate(),
 				month,
-				!this.state.validate.park
+				disabled
 			));
 	}
 
@@ -98,8 +124,8 @@ class Step1 extends Component {
 										id="park" 
 										value={this.state.park}
 										onChange={this.handleInputChange}
-										valid={this.state.validate.park}
-										invalid={!this.state.validate.park}
+										valid={this.state.validatePark == 'success'}
+										invalid={!this.state.validatePark == 'fail'}
 									>
 										<option>Select a park</option>
 										<option>Magic Kingdom Park - Florida, USA</option>
