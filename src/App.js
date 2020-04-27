@@ -22,7 +22,8 @@ class App extends Component {
           <Navigation />
           <Switch>
             <Route path="/" component={Home} exact />
-            <Route path="/Plan" component={Plan} />
+            {/* Pass key value so component remounts when clicking on plan from plan page */}
+            <Route path="/Plan" render={props => <Plan key={Date.now()} {...props} />} />
             <Route path="/About" component={About} />
             <Route path="/TheParks" component={TheParks} />
           </Switch>
