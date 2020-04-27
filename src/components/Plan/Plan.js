@@ -160,8 +160,8 @@ class Plan extends Component {
 	// The "next" and "previous" button functions
 	get previousButton(){
 		let currentStep = this.state.currentStep;
-		// If the current step is not 1, then render the "previous" button
-		if(currentStep !==1){
+		// If the current step is not 1 or 4, then render the "previous" button
+		if(currentStep ==2 || currentStep ==3){
 			return (
 				<Button 
 					size="lg"
@@ -372,7 +372,9 @@ class Plan extends Component {
 
 			return (
 				<>
-					<PDFDownloadLink document={<MyDocument/>} fileName="somename.pdf">
+					<h2>Your plan is ready!</h2>
+					<h3>Click below to view it now...</h3>
+					<PDFDownloadLink document={<MyDocument/>} fileName="Your Park Plan.pdf" style={{fontSize:30}}>
 						{({ blob, url, loading, error }) => (loading ? 'Loading document...' : 'Download now!')}
 					</PDFDownloadLink>
 				</>   
@@ -386,7 +388,7 @@ class Plan extends Component {
 			<>
 				<div className='mainDiv'>
 				<HomepageImage className='homeImg' />
-				<h5 className='formHeading'> Before you can get started planning your dream park trip we'll need some info from you!</h5>
+				<h5 className='formHeading'> Plan your dream park trip now!</h5>
 				</div>
 				<Row xs="1">
 					<Col>
