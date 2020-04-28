@@ -35,9 +35,6 @@ class Step2 extends Component {
     const value = target.value;
 		const name = target.name;
 
-		console.log(name);
-		console.log(value);
-
 		let valGroup = this.state.validateGroup;
 		let valReg = this.state.validateRegular;
 		let valWait = this.state.validateTimePref;
@@ -95,8 +92,6 @@ class Step2 extends Component {
 			disabled = false;
 		}
 		
-		console.log(disabled);
-
     this.setState({
       [name]: value
 		}, () =>
@@ -243,7 +238,7 @@ class Step2 extends Component {
 							</Col>
 							<Col md={6}>
 								<FormGroup>
-									<Label for="VisitingGroup">What's the maximum time you're willing to wait in an attraction queue?</Label>
+									<Label for="VisitingGroup">What's the average amount of time you're usually happy to wait in an attraction queue?</Label>
 									<Input 
 										type="select" 
 										name="waitTimePref" 
