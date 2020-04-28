@@ -10,6 +10,7 @@ import {
   parseDate,
 } from 'react-day-picker/moment';
 
+// extract park name from its ID
 function extractID(value) {
 	var ID = null;
 	if (value == "Disneyland Paris - France")
@@ -44,6 +45,7 @@ class Step1 extends Component {
     const value = target.value;
 		const name = target.name;
 
+		// validate form input
 		let valPark = this.state.validatePark;
 		if (value == 'Select a park') {
 			valPark = 'fail'
@@ -68,6 +70,7 @@ class Step1 extends Component {
 
 		var month = this.state.date.getMonth() + 1;
 
+		// perform callback of data to main form
     this.setState({
 			[name]: value,
 			parkID: ID 

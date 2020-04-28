@@ -22,6 +22,7 @@ class Step3 extends Component {
 		};
 	}
 
+	// data callback to main form
 	handleCallback() {
 		this.props.mainFormCallback(
 			this.state.money,
@@ -50,6 +51,8 @@ class Step3 extends Component {
 			{ value: 1, text: "Lots" },
 		]
 
+		// define likert scale options
+		
 		const moneyLikertOptions = {
 			question: "Costs and money tips?",
 			picked: val => {

@@ -39,6 +39,7 @@ const items = [
   }
 ];
 
+// render carousel with parks detail and images
 const TheParks = () => {
   return (
 		<div className='mainDiv'>

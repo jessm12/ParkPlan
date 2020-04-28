@@ -13,6 +13,7 @@ import { PDFDownloadLink, Document, Page, Text, View, StyleSheet  } from '@react
 import axios from 'axios';
 import styled from '@react-pdf/styled-components';
 
+// define API paths for park date info, reviews and rides
 const API_PATH = 'http://cojlm.sci-project.lboro.ac.uk/api/parkdateinfo/index.php';
 const API_PATH2 = 'http://cojlm.sci-project.lboro.ac.uk/api/parkreviews/index.php';
 const API_PATH3 = 'http://cojlm.sci-project.lboro.ac.uk/api/parkrides/index.php';
@@ -21,7 +22,6 @@ class Plan extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			api: null,
 			email: null,
 			park: null,
 			parkID: null,
@@ -30,11 +30,9 @@ class Plan extends Component {
 			day: null,
 			month: null,
 			group: null, 
-			output: null,
 			visitorCount: null,
 			visitorAges: null,
 			preferences: null,
-			userRides: null,
 			disabled1: true,
 			disabled2: true,
 			currentStep: 1,
@@ -56,6 +54,8 @@ class Plan extends Component {
     this._prev = this._prev.bind(this);
 		this.handleChange = this.handleChange.bind(this);
 	}
+
+	// define callback functions for each step
 
 	stepOneDataCallback = (park, parkID, day, month, disabled1) => {
 		this.setState({
@@ -105,6 +105,7 @@ class Plan extends Component {
 		})    
 	}
 
+	// API calls from PHP backend
 	getParkReviews(parkID) {
 	  axios({
 			method: 'post',
@@ -135,6 +136,23 @@ class Plan extends Component {
 		.catch(error => console.log('error' + error));
 	}
 
+	getDateParkInfo() {
+		axios({
+			method: 'post',
+			url: `${API_PATH}`,
+			headers: { 'content-type': 'application/json' },
+			data: this.state
+		})
+		.then(result => {
+			this.setState({
+				openTime: result.data.opentime,
+				crowdLevel: result.data.crowdlevel
+			})
+		})
+		.catch(error => console.log('error' + error));
+	}
+
+	// navigation between form steps
 	_next() {
     let currentStep = this.state.currentStep
     // If the current step is 1, 2 or 3, then add one on "next" button click
@@ -158,7 +176,7 @@ class Plan extends Component {
     })
   }
 
-	// The "next" and "previous" button functions
+	// The "next" and "previous" button rendering functions
 	get previousButton(){
 		let currentStep = this.state.currentStep;
 		// If the current step is not 1 or 4, then render the "previous" button
@@ -214,22 +232,8 @@ class Plan extends Component {
 		return null;
 	}
 
-	getDateParkInfo() {
-		axios({
-			method: 'post',
-			url: `${API_PATH}`,
-			headers: { 'content-type': 'application/json' },
-			data: this.state
-		})
-		.then(result => {
-			this.setState({
-				openTime: result.data.opentime,
-				crowdLevel: result.data.crowdlevel
-			})
-		})
-		.catch(error => console.log('error' + error));
-	}
-
+	// construct the array to pass to the decision tree function 
+	// from user inputs
 	constructClassifyArray() {
 		let classifyArray = [];
 
@@ -293,7 +297,7 @@ class Plan extends Component {
 				this.state.accomodation, this.state.theme, this.state.rides, this.state.convenience,
 				this.state.parkReviews)
 
-			// Create styles
+			// Create styles for PDF document
 			const Title = styled.Text`
 				margin: 15px;
 				color: #4b5877;
@@ -319,7 +323,6 @@ class Plan extends Component {
 				}
 			});
 
-			// Create styles
 			const Heading = styled.Text`
 				margin: 8px;
 				margin-top: 16px;
@@ -332,6 +335,7 @@ class Plan extends Component {
 				font-family: 'Helvetica';
 			`;
 
+			// define the structure and design of the PDF document
 			const MyDocument = () => (
 				<Document>
 					<Page size="A4" style={styles.page}>
@@ -384,6 +388,7 @@ class Plan extends Component {
 		return null;
 	}
 
+	// prompt the user when trying to leave page while still planning 
 	render() {
 		return (
 			<>

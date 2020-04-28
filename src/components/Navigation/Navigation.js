@@ -3,6 +3,7 @@ import './Navigation.scss';
 import { Button } from 'reactstrap'
 import { NavLink } from 'react-router-dom';
 
+// rendering of the navigation bar
 const Navigation = () => {
 	return (
 		<div className='navBar'>

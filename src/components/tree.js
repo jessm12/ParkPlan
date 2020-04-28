@@ -20,6 +20,8 @@ function predict(features, tree, node) {
 
 export function classify(features) {
 	const results = [];
+
+	// trees data from the constructed decision trees exported from python
 	const trees = [
 		{
 			lChilds: [1, 2, 3, -1, -1, 6, -1, 8, 9, 10, -1, -1, 13, -1, 15, -1, -1, -1, 19, -1, 21, -1, -1],
@@ -100,6 +102,7 @@ export function classify(features) {
 		},
 	]
 
+	// calculate result for each tree and return all results
 	for (var i = 0; i < trees.length; i++) {
 		results.push(predict(features, trees[i]));
 	}

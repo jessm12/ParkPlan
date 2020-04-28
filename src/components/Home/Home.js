@@ -20,7 +20,6 @@ class Home extends Component {
     super(props);
 		this.handleClick = this.handleClick.bind(this);
 		this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
     this.state = {
 			waitTimes: false,
 			rideRecommendations: true,
@@ -36,13 +35,7 @@ class Home extends Component {
     this.setState({ string: event.target.value });
 	}
 
-  handleSubmit(event) {
-    event.preventDefault();
-    fetch(`/api/tokenise?name=${encodeURIComponent(this.state.string)}`)
-      .then(response => response.json())
-			.then(state => this.setState(state));    
-  }
-	
+	// reset to initial state
 	handleReset() {
 		this.setState(initialState);
 	}

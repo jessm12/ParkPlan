@@ -3,6 +3,7 @@ import '../../App.scss';
 import './FormStep2.scss';
 import { Col, Row, Form, FormGroup, Label, Input, FormFeedback } from 'reactstrap';
 
+// function to render specified number of a component
 function Repeat(props) {
 	let items = [];
 	for (let i = 0; i < props.numTimes; i++) {
@@ -92,6 +93,7 @@ class Step2 extends Component {
 			disabled = false;
 		}
 		
+		// data callback to main form
     this.setState({
       [name]: value
 		}, () =>
