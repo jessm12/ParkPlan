@@ -14,9 +14,12 @@ button.infoBtn.btn-secondary{
 	border: #4B5877
 }
 
-.info{
+div.info{
 	background-color: #6c757d;
 	color: white;
 	text-align: left;
-	padding-left: 2rem;
+	padding: 5rem;
+	padding-bottom: 2rem;
+	font-size: 22px;
+	white-space: pre-wrap;
 }

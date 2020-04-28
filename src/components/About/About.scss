@@ -1,8 +1,16 @@
 .info{
 	text-align: left;
-	padding: 1rem;
+	padding: 0.5rem;
 }
 
 div.infoMain{
 	background-color:#6c757d;
+}
+
+.infoAbout{
+	background-color: #6c757d;
+	color: white;
+	text-align: left;
+	padding: 1rem;
+	white-space: pre-wrap;
 }

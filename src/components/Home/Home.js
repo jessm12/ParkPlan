@@ -7,10 +7,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const initialState = {
 	waitTimes: false,
-	familyFriendly: false,
-	foodChoices: false,
+	rideRecommendations: false,
+	parkInfo: false,
 	visitorReviews: false,
-	parkNavigation: false,
 	data: null,
 	string: '',
 	tokenise: ''
@@ -22,7 +21,15 @@ class Home extends Component {
 		this.handleClick = this.handleClick.bind(this);
 		this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.state = initialState
+    this.state = {
+			waitTimes: false,
+			rideRecommendations: true,
+			parkInfo: false,
+			visitorReviews: false,
+			data: null,
+			string: '',
+			tokenise: ''
+		}
 	}
 
 	handleChange(event) {
@@ -54,26 +61,12 @@ class Home extends Component {
 				<div className='mainDiv'>
 					<HomepageImage className='homeImg' />
 					<div className='infoBtns'>
-						<Button
-							id='waitTimes'
-							className='infoBtn'
-							onClick={this.handleClick}
-						>
-							Wait times <FontAwesomeIcon icon="clock" />
-						</Button>
 						<Button 
-							id='familyFriendly'
+							id='rideRecommendations'
 							className='infoBtn'
 							onClick={this.handleClick}
 						>
-							Family friendly <FontAwesomeIcon icon="child" />
-						</Button>
-						<Button 
-							id='foodChoices'
-							className='infoBtn'
-							onClick={this.handleClick}
-						>
-							Food choices <FontAwesomeIcon icon="hamburger" />
+							Ride Recommendations <FontAwesomeIcon icon="laugh" />
 						</Button>
 						<Button 
 							id='visitorReviews'
@@ -83,26 +76,65 @@ class Home extends Component {
 							Visitor reviews <FontAwesomeIcon icon="user-check" />
 						</Button>
 						<Button 
-							id='parkNavigation'
+							id='parkInfo'
 							className='infoBtn'
 							onClick={this.handleClick}
-						>								
-							Park navigation <FontAwesomeIcon icon="map-signs" />
+						>
+							Park Information <FontAwesomeIcon icon="info" />
 						</Button>
-						{ this.state.waitTimes &&
-							<div className='info'>Wait times</div>
-						}
-					  { this.state.familyFriendly &&
-							<div className='info'>Family friendly</div>
-						}
-						{ this.state.foodChoices &&
-							<div className='info'>Food choices</div>
+						<Button
+							id='waitTimes'
+							className='infoBtn'
+							onClick={this.handleClick}
+						>
+							Wait times <FontAwesomeIcon icon="clock" />
+						</Button>
+						{ this.state.rideRecommendations &&
+							<>
+								<div className='info'>
+									ParkPlan will recommend rides it's predicted you'll like based on the demographic information you provide. You'll be 
+									given a summary of these rides to look out for when you make your theme park visit.
+									
+								</div>
+								<div className='info'>
+									Head to the plan page to get started and see what rides are suggested for you within minutes!
+								</div>
+							</>
 						}
 						{ this.state.visitorReviews &&
-							<div className='info'>Visitor reviews</div>
+							<>
+								<div className='info'>
+									ParkPlan gives you the opportunity to filter reviews for the park you want to visit to only the categories
+									you want to see. You'll get a quick summary of relevant reviews to read as opposed to having to trawl through the
+									thousands available on the web.
+								</div>
+								<div className='info'>
+									Head to the plan page to get started and read the reviews that are suggested for you within minutes!
+								</div>
+							</>
 						}
-						{ this.state.parkNavigation &&
-							<div className='info'>Park navigation</div>
+						{ this.state.parkInfo &&
+							<>
+								<div className='info'>
+									ParkPlan tells you what time the park should open on your selected visit date and what the
+									predicted crowd levels are for that date helping you to make more informed decisions about your visit.
+								</div>
+								<div className='info'>
+									Head to the plan page to get started planning your perfect visit!
+								</div>
+							</>
+						}
+						{ this.state.waitTimes &&
+							<>
+								<div className='info'>
+									ParkPlan will show you predicted wait times based on historical averages when the crowd level was equal to 
+									that of your visit date. This can help you to decide how long you may be willing to wait for the best rides
+									and whether another visit date might give you a much better experience.
+								</div>
+								<div className='info'>
+									Head to the plan page to get started planning your perfect visit!
+								</div>
+							</>
 						}
 					</div>
 				</div>

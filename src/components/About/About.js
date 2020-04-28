@@ -18,8 +18,8 @@ class About extends Component {
 					<HomepageImage className='homeImg' />
 				</div>
 				<div className='infoMain'>
-					<h1 className='info'>About</h1>
-					<p className='info'>
+					<h1 className='infoAbout'>About</h1>
+					<h5 className='infoAbout'>
 						ParkPlan is a web application to help you streamline the
 						planning required before your theme park visits. It gives 
 						intelligent ride suggestions, calculated from your
@@ -30,13 +30,13 @@ class About extends Component {
 						with helpful details - park opening time, crowd levels and 
 						predicted queue times your visit date are all converted to 
 						a downloadable PDF for viewing and printing however you wish!
-					</p>
-					<h5 className='info'>Happy planning!</h5>
-					<h3 className='info'>Acknowledgements</h3>
-					<p className='info'>
+					</h5>
+					<h3 className='infoAbout'>Happy planning!</h3>
+					<h3 className='infoAbout'>Acknowledgements</h3>
+					<h5 className='infoAbout'>
 						Many thanks to Zachary Bull creator of https://queue-times.com/
 						for kindly providing some of the data to support this project. 
-					</p>
+					</h5>
 				</div>
 			</>
 		);

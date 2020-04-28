@@ -10,7 +10,7 @@ function HomepageImage() {
 			<div className="siteTitle">ParkPlan</div>
 			<div className="siteSubtitle">
 				Plan your park visits so you never
-				miss a moment of fun. Powered by AI
+				miss a moment of fun. Powered by Machine Learning
 				technologies.
 			</div>
 		</div>

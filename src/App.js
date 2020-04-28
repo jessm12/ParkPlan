@@ -10,9 +10,9 @@ import TheParks from './components/TheParks';
 import { render } from 'react-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faClock, faChild, faHamburger, faUserCheck, faMapSigns} from '@fortawesome/free-solid-svg-icons'
+import { faClock, faLaugh, faInfo, faUserCheck } from '@fortawesome/free-solid-svg-icons'
 
-library.add(faClock, faChild, faHamburger, faUserCheck, faMapSigns)
+library.add(faClock, faLaugh, faInfo, faUserCheck)
 
 class App extends Component {
   render() {
